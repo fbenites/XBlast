@@ -42,6 +42,7 @@ public class SubCellTest {
 
     @Test
     public void neighborsOfOriginAreCorrect() {
+        // also assures that equals() is working correctly
         SubCell c = new SubCell(0, 0);
         assertEquals(new SubCell(  0, 207), c.neighbor(Direction.N));
         assertEquals(new SubCell(  1,   0), c.neighbor(Direction.E));
@@ -56,5 +57,16 @@ public class SubCellTest {
             for (Direction d: Direction.values())
                 assertEquals(c, s.neighbor(d).containingCell());
         }
+    }
+    
+    // added by me
+    @Test
+    public void toStringTest(){
+        SubCell c = new SubCell(0, 0);
+        assertEquals("(0,207)", c.neighbor(Direction.N).toString());
+        assertEquals("(1,0)", c.neighbor(Direction.E).toString());
+        assertEquals("(0,1)", c.neighbor(Direction.S).toString());
+        assertEquals("(239,0)", c.neighbor(Direction.W).toString());
+        
     }
 }

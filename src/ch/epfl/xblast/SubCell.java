@@ -77,8 +77,7 @@ public final class SubCell {
      * @return true if this SubCell is a "center"-SubCell
      */
     public boolean isCentral() {
-        return (Math.floorMod(this.x, SUBCELL_COUNT) == SUBCELL_COUNT / 2 &&
-                Math.floorMod(this.y, SUBCELL_COUNT) == SUBCELL_COUNT / 2);
+        return (this.distanceToCentral() == 0);
     }
 
     /**

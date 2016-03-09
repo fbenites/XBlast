@@ -38,6 +38,28 @@ public class CellTest {
             pred = c;
         }
     }
+    
+    // added by me
+    @Test
+    public void spiralOrderSpecialCells(){
+        // also assures toString() is working
+        // corners
+        assertEquals("(0,0)", Cell.SPIRAL_ORDER.get(0).toString());
+        assertEquals("(14,0)", Cell.SPIRAL_ORDER.get(14).toString());
+        assertEquals("(14,12)", Cell.SPIRAL_ORDER.get(26).toString());
+        assertEquals("(0,12)", Cell.SPIRAL_ORDER.get(40).toString());
+        // center
+        assertEquals("(8,6)", Cell.SPIRAL_ORDER.get(194).toString());
+        
+        // also assures equals() is working
+        //corners
+        assertEquals(new Cell(0,0), Cell.SPIRAL_ORDER.get(0));
+        assertEquals(new Cell(14,0), Cell.SPIRAL_ORDER.get(14));
+        assertEquals(new Cell(14,12), Cell.SPIRAL_ORDER.get(26));
+        assertEquals(new Cell(0,12), Cell.SPIRAL_ORDER.get(40));
+        //center
+        assertEquals(new Cell(8,6), Cell.SPIRAL_ORDER.get(194));
+    }
 
     @Test
     public void constructorCorrectlyNormalizesCoordinates() {
