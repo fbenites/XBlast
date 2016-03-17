@@ -20,13 +20,14 @@ public final class Board {
     }
     
     public Sq<Block> blocksAt(Cell c){
-        return blocks.get(c.rowMajorIndex());
+        return this.blocks.get(c.rowMajorIndex());
     }
     
     public Block blockAt(Cell c){
-        return blocksAt(c).head();
+        return this.blocksAt(c).head();
     }
     
+    // do i declare throw or only on checkBlockMatrix?
     public static Board ofRows(List<List<Block>> rows) throws IllegalArgumentException{
         checkBlockMatrix(rows, Cell.ROWS, Cell.COLUMNS);
         List<Sq<Block>> construct = new ArrayList<Sq<Block>>(Cell.COUNT);
@@ -37,7 +38,8 @@ public final class Board {
         }
         return new Board(construct);
     }
-    
+
+    // do i declare throw or only on checkBlockMatrix?
     public static Board ofInnerBlocksWalled(List<List<Block>> innerBlocks) throws IllegalArgumentException{
         checkBlockMatrix(innerBlocks, Cell.ROWS - 2, Cell.COLUMNS - 2);
         List<Block> outerWall = Collections.nCopies(Cell.COLUMNS, Block.INDESTRUCTIBLE_WALL);
@@ -58,7 +60,7 @@ public final class Board {
         return ofRows(rows);
     }
         
-    
+    // do i declare throw or only on checkBlockMatrix?
     public static Board ofQuadrantNWBlocksWalled(List<List<Block>> quadrantNWBlocks) throws IllegalArgumentException{
         checkBlockMatrix(quadrantNWBlocks, (Cell.ROWS / 2), (Cell.COLUMNS / 2));
         List<List<Block>> innerBlocks = new ArrayList<List<Block>>(Cell.ROWS - 2);

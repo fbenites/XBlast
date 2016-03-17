@@ -48,7 +48,7 @@ public final class Cell {
      * @return the x component of the Cells coordinates
      */
     public int x() {
-        return x;
+        return this.x;
     }
 
     /**
@@ -57,7 +57,7 @@ public final class Cell {
      * @return the y component of the Cells coordinates
      */
     public int y() {
-        return y;
+        return this.y;
     }
 
     /**

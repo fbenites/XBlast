@@ -49,7 +49,7 @@ public final class SubCell {
      * @return the x component of the SubCells coordinates
      */
     public int x() {
-        return x;
+        return this.x;
     }
 
     /**
@@ -58,7 +58,7 @@ public final class SubCell {
      * @return the y component of the SubCells coordinates
      */
     public int y() {
-        return y;
+        return this.y;
     }
 
     /**
