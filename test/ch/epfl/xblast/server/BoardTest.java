@@ -8,13 +8,10 @@ import org.junit.Test;
 
 import ch.epfl.xblast.Cell;
 
+/**
+ * @author Lorenz Rasch (249937)
+ */
 public class BoardTest {
-    
-
-    @Test
-    public void constructor() {
-        assertTrue(true);
-    }
 
     @Test
     public void blocksAtTest() {
@@ -75,7 +72,7 @@ public class BoardTest {
         Block __ = Block.FREE;
         Block XX = Block.INDESTRUCTIBLE_WALL;
         Block xx = Block.DESTRUCTIBLE_WALL;
-        Board board = Board.ofQuadrantNWBlocksWalled(
+        Board.ofQuadrantNWBlocksWalled(
           Arrays.asList(
             Arrays.asList(__, __, __, __, __, xx, __),
             Arrays.asList(__, XX, xx, XX, xx, XX, xx),
@@ -88,7 +85,7 @@ public class BoardTest {
     @Test
     public void nullTest(){
         //thorw npe on check matrix?
-        Board board = Board.ofQuadrantNWBlocksWalled(null);
+        Board.ofQuadrantNWBlocksWalled(null);
     }
 
 }

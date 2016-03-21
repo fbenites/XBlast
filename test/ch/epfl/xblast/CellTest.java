@@ -5,7 +5,11 @@ import static org.junit.Assert.assertFalse;
 
 import org.junit.Test;
 
+/**
+ * Provided
+ */
 public class CellTest {
+    //TODO check if tests complete
     @Test
     public void rowMajorIndexCorrespondsToOrder() {
         int i = 0;

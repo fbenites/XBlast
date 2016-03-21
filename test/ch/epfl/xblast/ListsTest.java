@@ -8,7 +8,11 @@ import java.util.List;
 
 import org.junit.Test;
 
+/**
+ * @author Lorenz Rasch (249937)
+ */
 public class ListsTest {
+    //TODO check if tests complete
     @Test
     public void integerListCheck() {
         List<Integer> li = new ArrayList<Integer>(Arrays.asList(1, 2, 3, 4, 5));

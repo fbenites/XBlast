@@ -68,7 +68,8 @@ public final class SubCell {
      */
     public int distanceToCentral() {
         SubCell central = centralSubCellOf(this.containingCell());
-        return Math.abs(this.x - central.x) + Math.abs(this.y - central.y);
+        return Math.abs(this.x() - central.x())
+                + Math.abs(this.y() - central.y());
     }
 
     /**
@@ -88,8 +89,8 @@ public final class SubCell {
      * @return the neighbor in the given Direction
      */
     public SubCell neighbor(Direction dir) {
-        int newx = this.x;
-        int newy = this.y;
+        int newx = this.x();
+        int newy = this.y();
         switch (dir) {
         case N:
             newy = Math.floorMod(newy - 1, ROWS);
@@ -113,7 +114,7 @@ public final class SubCell {
      * @return the Cell containing this SubCell
      */
     public Cell containingCell() {
-        return new Cell(this.x / SUBCELL_COUNT, this.y / SUBCELL_COUNT);
+        return new Cell(this.x() / SUBCELL_COUNT, this.y() / SUBCELL_COUNT);
     }
 
     @Override
@@ -122,12 +123,17 @@ public final class SubCell {
             return false;
         } else {
             SubCell second = (SubCell) that;
-            return (this.x == second.x && this.y == second.y);
+            return (this.x() == second.x() && this.y() == second.y());
         }
     }
 
     @Override
+    public int hashCode() {
+        return (this.y() * COLUMNS) + this.x();
+    }
+
+    @Override
     public String toString() {
-        return "(" + this.x + "," + this.y + ")";
+        return "(" + this.x() + "," + this.y() + ")";
     }
 }

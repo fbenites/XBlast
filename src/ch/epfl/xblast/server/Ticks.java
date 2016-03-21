@@ -1,9 +1,11 @@
 package ch.epfl.xblast.server;
 
-//TODO comments
-
 import ch.epfl.xblast.Time;
 
+/**
+ * Interface containing constants representing durations in the game in ticks.
+ * @author Lorenz Rasch (249937)
+ */
 public interface Ticks {
     public static int PLAYER_DYING_TICKS = 8;
     public static int PLAYER_INVULNERABLE_TICKS = 64;

@@ -21,10 +21,10 @@ public final class Cell {
     /**
      * constant lists containing the grids Cells in row-major and spiral order
      */
-    public static List<Cell> ROW_MAJOR_ORDER =
-            Collections.unmodifiableList(rowMajorOrder());
-    public static List<Cell> SPIRAL_ORDER =
-            Collections.unmodifiableList(spiralOrder());
+    public static List<Cell> ROW_MAJOR_ORDER = Collections
+            .unmodifiableList(rowMajorOrder());
+    public static List<Cell> SPIRAL_ORDER = Collections
+            .unmodifiableList(spiralOrder());
 
     private final int x, y;
 
@@ -77,8 +77,8 @@ public final class Cell {
      * @return the neighbor in the given Direction
      */
     public Cell neighbor(Direction dir) {
-        int newx = this.x;
-        int newy = this.y;
+        int newx = this.x();
+        int newy = this.y();
         switch (dir) {
         case N:
             newy = Math.floorMod(newy - 1, ROWS);
@@ -102,13 +102,18 @@ public final class Cell {
             return false;
         } else {
             Cell second = (Cell) that;
-            return (this.x == second.x && this.y == second.y);
+            return (this.x() == second.x() && this.y() == second.y());
         }
     }
 
     @Override
+    public int hashCode() {
+        return this.rowMajorIndex();
+    }
+
+    @Override
     public String toString() {
-        return "(" + this.x + "," + this.y + ")";
+        return "(" + this.x() + "," + this.y() + ")";
     }
 
     /**
