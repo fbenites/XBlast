@@ -32,6 +32,9 @@ public class BoardTest {
         
         assertEquals(Block.FREE, board.blocksAt(new Cell(1,1)).head());
         assertEquals(Block.FREE, board.blocksAt(new Cell(1,1)).tail().head());
+        
+        assertEquals(Block.INDESTRUCTIBLE_WALL, board.blocksAt(new Cell(0,0)).head());
+        assertEquals(Block.INDESTRUCTIBLE_WALL, board.blocksAt(new Cell(0,0)).tail().head());
     }
 
     //also tests blockAt()
@@ -65,6 +68,27 @@ public class BoardTest {
         assertEquals(Block.DESTRUCTIBLE_WALL, board.blockAt(new Cell( 8,  1)));
         assertEquals(Block.DESTRUCTIBLE_WALL, board.blockAt(new Cell( 6, 11)));
         assertEquals(Block.DESTRUCTIBLE_WALL, board.blockAt(new Cell( 8, 11)));
+    }
+    
+    @Test(expected = IllegalArgumentException.class)
+    public void exceptionTest(){
+        Block __ = Block.FREE;
+        Block XX = Block.INDESTRUCTIBLE_WALL;
+        Block xx = Block.DESTRUCTIBLE_WALL;
+        Board board = Board.ofQuadrantNWBlocksWalled(
+          Arrays.asList(
+            Arrays.asList(__, __, __, __, __, xx, __),
+            Arrays.asList(__, XX, xx, XX, xx, XX, xx),
+            Arrays.asList(__, xx, __, __, __, xx, __),
+            Arrays.asList(xx, XX, __, XX, XX, XX, XX),
+            Arrays.asList(__, xx, __, xx, __, __, __),
+            Arrays.asList(xx, XX, xx, XX, xx, XX))); //one block missing
+    }
+    
+    @Test
+    public void nullTest(){
+        //thorw npe on check matrix?
+        Board board = Board.ofQuadrantNWBlocksWalled(null);
     }
 
 }

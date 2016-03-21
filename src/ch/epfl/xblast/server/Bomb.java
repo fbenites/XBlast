@@ -10,25 +10,26 @@ import ch.epfl.xblast.Cell;
 import ch.epfl.xblast.Direction;
 import ch.epfl.xblast.PlayerID;
 
+//TODO comments
+
 public final class Bomb {
     
     private final PlayerID owner;
     private final Cell pos;
     private final Sq<Integer> fuse;
     private final int range;
-    // do i declare throw or only on ArgumentChecker?
+
     public Bomb(PlayerID ownerId, Cell position, Sq<Integer> fuseLengths, int range) throws NullPointerException, IllegalArgumentException{
-        this.owner = Objects.requireNonNull(ownerId);
-        this.pos = Objects.requireNonNull(position);
-        if(Objects.requireNonNull(fuseLengths).isEmpty()){
+        this.owner = Objects.requireNonNull(ownerId, "Given PlayerID is null.");
+        this.pos = Objects.requireNonNull(position, "Given position is null.");
+        if(Objects.requireNonNull(fuseLengths, "Given fuse length is null.").isEmpty()){
             throw new IllegalArgumentException("The given fuse sequence is empty.");
         } else {
             this.fuse = fuseLengths;
         }
         this.range = ArgumentChecker.requireNonNegative(range);
     }
-    // do i declare throw or only on ArgumentChecker?
-    // do i check arguments or only in primary constructor?
+    
     public Bomb(PlayerID ownerId, Cell position, int fuseLength, int range) throws NullPointerException, IllegalArgumentException{
         this(ownerId, position, Sq.iterate(ArgumentChecker.requireNonNegative(fuseLength), u -> u - 1).limit(fuseLength), range);
     }
@@ -60,8 +61,8 @@ public final class Bomb {
         }
         return l;
     }
-    // ????????????????????????????????????
+    
     private Sq<Sq<Cell>> explosionArmTowards(Direction dir){
-        return Sq.repeat(Ticks.EXPLOSION_TICKS, Sq.iterate(this.position(), u -> u.neighbor(dir)));
+        return Sq.repeat(Ticks.EXPLOSION_TICKS, Sq.iterate(this.position(), u -> u.neighbor(dir)).limit(this.range()));
     }
 }

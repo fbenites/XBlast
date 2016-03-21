@@ -9,24 +9,27 @@ import ch.epfl.xblast.Direction;
 import ch.epfl.xblast.PlayerID;
 import ch.epfl.xblast.SubCell;
 
+//TODO comments
+
 public final class Player {
     
     private final PlayerID id;
     private final Sq<LifeState> ls;
     private final Sq<DirectedPosition> dPos;
     private final int maxB, bRange;
-    // do i declare throw or only on ArgumentChecker?
-    public Player(PlayerID id, Sq<LifeState> lifeStates, Sq<DirectedPosition> directedPos, int maxBombs, int bombRange){
-        this.id = Objects.requireNonNull(id);
-        this.ls = Objects.requireNonNull(lifeStates);
-        this.dPos = Objects.requireNonNull(directedPos);
+
+    //if maxBombs/bombRange over 9 leave it be
+    public Player(PlayerID id, Sq<LifeState> lifeStates, Sq<DirectedPosition> directedPos, int maxBombs, int bombRange) throws IllegalArgumentException, NullPointerException{
+        this.id = Objects.requireNonNull(id, "Given PlayerID is null.");
+        this.ls = Objects.requireNonNull(lifeStates, "Given LifeState is null.");
+        this.dPos = Objects.requireNonNull(directedPos, "Given DirectedPosition is null.");
         this.maxB = ArgumentChecker.requireNonNegative(maxBombs);
         this.bRange = ArgumentChecker.requireNonNegative(bombRange);
     }
-    // do i check Arguments or only in primary constructor?
-    // 0 lives? see LifeState
-    public Player(PlayerID id, int lives, Cell position, int maxBombs, int bombRange){
+    
+    public Player(PlayerID id, int lives, Cell position, int maxBombs, int bombRange) throws IllegalArgumentException, NullPointerException{
         this(id, Sq.repeat(Ticks.PLAYER_INVULNERABLE_TICKS, new LifeState(lives, LifeState.State.INVULNERABLE)).concat(Sq.constant(new LifeState(lives, LifeState.State.VULNERABLE))), Sq.constant(new DirectedPosition(SubCell.centralSubCellOf(position), Direction.S)), maxBombs, bombRange);
+        //TODO create method to create LiveStates, used here and in statesForNextLife
     }
     
     public PlayerID id(){
@@ -94,10 +97,13 @@ public final class Player {
         private final int lives;
         private final State state;
         
-        // creating lifestate with 0 lives always gives state dead?
-        public LifeState(int lives, State state){
+        public LifeState(int lives, State state) throws IllegalArgumentException, NullPointerException{
             this.lives = ArgumentChecker.requireNonNegative(lives);
-            this.state = Objects.requireNonNull(state);
+            if(lives == 0){
+                this.state = State.DEAD;
+            } else {
+                this.state = Objects.requireNonNull(state, "Given State is null.");
+            }
         }
         
         public int lives(){
@@ -123,15 +129,15 @@ public final class Player {
         private final SubCell pos;
         private final Direction d;
         
-        public DirectedPosition(SubCell position, Direction direction){
-            this.pos = Objects.requireNonNull(position);
-            this.d = Objects.requireNonNull(direction);
+        public DirectedPosition(SubCell position, Direction direction) throws NullPointerException{
+            this.pos = Objects.requireNonNull(position, "Given position is null.");
+            this.d = Objects.requireNonNull(direction, "Given direction is null.");
         }
         
         public static Sq<DirectedPosition> stopped(DirectedPosition p){
             return Sq.constant(p);
         }
-        // infinite sequence? through 0?
+        
         public static Sq<DirectedPosition> moving(DirectedPosition p){
             return Sq.iterate(p, u -> u.withPosition(u.position().neighbor(u.direction())));
         }

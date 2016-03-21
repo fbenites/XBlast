@@ -8,6 +8,8 @@ import ch.epfl.cs108.Sq;
 import ch.epfl.xblast.Cell;
 import ch.epfl.xblast.Lists;
 
+//TODO comments
+
 public final class Board {
     private List<Sq<Block>> blocks;
     
@@ -27,7 +29,6 @@ public final class Board {
         return this.blocksAt(c).head();
     }
     
-    // do i declare throw or only on checkBlockMatrix?
     public static Board ofRows(List<List<Block>> rows) throws IllegalArgumentException{
         checkBlockMatrix(rows, Cell.ROWS, Cell.COLUMNS);
         List<Sq<Block>> construct = new ArrayList<Sq<Block>>(Cell.COUNT);
@@ -39,7 +40,6 @@ public final class Board {
         return new Board(construct);
     }
 
-    // do i declare throw or only on checkBlockMatrix?
     public static Board ofInnerBlocksWalled(List<List<Block>> innerBlocks) throws IllegalArgumentException{
         checkBlockMatrix(innerBlocks, Cell.ROWS - 2, Cell.COLUMNS - 2);
         List<Block> outerWall = Collections.nCopies(Cell.COLUMNS, Block.INDESTRUCTIBLE_WALL);
@@ -60,7 +60,6 @@ public final class Board {
         return ofRows(rows);
     }
         
-    // do i declare throw or only on checkBlockMatrix?
     public static Board ofQuadrantNWBlocksWalled(List<List<Block>> quadrantNWBlocks) throws IllegalArgumentException{
         checkBlockMatrix(quadrantNWBlocks, (Cell.ROWS / 2), (Cell.COLUMNS / 2));
         List<List<Block>> innerBlocks = new ArrayList<List<Block>>(Cell.ROWS - 2);
@@ -70,6 +69,7 @@ public final class Board {
         return ofInnerBlocksWalled(Lists.mirrored(innerBlocks));
     }
     
+    //TODO check matrix null?
     private static void checkBlockMatrix(List<List<Block>> matrix, int rows, int columns) throws IllegalArgumentException{
         if(matrix.size() != rows){
             throw new IllegalArgumentException("Specified list of rows does not contain " + rows + " entries. (" + matrix.size() + ")");

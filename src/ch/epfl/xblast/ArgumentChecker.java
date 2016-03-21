@@ -1,5 +1,7 @@
 package ch.epfl.xblast;
 
+//TODO comments
+
 public final class ArgumentChecker {
     
     private ArgumentChecker(){}
