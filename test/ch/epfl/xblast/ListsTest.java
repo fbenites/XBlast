@@ -48,4 +48,21 @@ public class ListsTest {
         List<Integer> li = new ArrayList<Integer>();
         Lists.mirrored(li);
     }
+    
+    @Test
+    public void permutationsTest(){
+        List<Integer> li = new ArrayList<Integer>(Arrays.asList(1,2,3,4));
+        List<List<Integer>> lip = Lists.permutations(li);
+//        for(List<Integer> lint : lip){
+//            for(Integer i : lint){
+//                System.out.print(i + " ,");
+//            }
+//            System.out.println();
+//        }
+        assertEquals(24, lip.size());
+        
+        li = new ArrayList<Integer>(Arrays.asList(1,2,3));
+        lip = Lists.permutations(li);
+        assertEquals(6, lip.size());
+    }
 }
