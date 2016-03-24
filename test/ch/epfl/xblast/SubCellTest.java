@@ -9,7 +9,6 @@ import org.junit.Test;
  * Provided
  */
 public class SubCellTest {
-    //TODO check if tests complete
     @Test
     public void centralSubCellOfKnowCellIsCorrect() {
         SubCell c = SubCell.centralSubCellOf(new Cell(2, 1));
@@ -72,5 +71,14 @@ public class SubCellTest {
         assertEquals("(0,1)", c.neighbor(Direction.S).toString());
         assertEquals("(239,0)", c.neighbor(Direction.W).toString());
         
+    }
+    
+    // added by me
+    @Test
+    public void distanceTest(){
+        SubCell c = SubCell.centralSubCellOf(new Cell(2,1)).neighbor(Direction.S).neighbor(Direction.S);
+        assertEquals(2, c.distanceToCentral());
+        c = SubCell.centralSubCellOf(new Cell(2,1)).neighbor(Direction.S).neighbor(Direction.E);
+        assertEquals(2, c.distanceToCentral());
     }
 }

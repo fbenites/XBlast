@@ -9,7 +9,6 @@ import org.junit.Test;
  */
 public class TicksTest {
     
-    //TODO check if tests complete
     @Test
     public void ticksTest(){
         assertTrue(true);

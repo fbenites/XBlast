@@ -66,7 +66,7 @@ public final class Bomb {
      * @throws NullPointerException
      *             if any of the first 2 arguments are null
      * @throws IllegalArgumentException
-     *             if the fuse sequence is empty or the range is negative
+     *             if the fuse length or the range is negative
      */
     public Bomb(PlayerID ownerId, Cell position, int fuseLength, int range)
             throws NullPointerException, IllegalArgumentException {

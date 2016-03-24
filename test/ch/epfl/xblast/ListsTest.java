@@ -12,7 +12,6 @@ import org.junit.Test;
  * @author Lorenz Rasch (249937)
  */
 public class ListsTest {
-    //TODO check if tests complete
     @Test
     public void integerListCheck() {
         List<Integer> li = new ArrayList<Integer>(Arrays.asList(1, 2, 3, 4, 5));
@@ -57,6 +56,7 @@ public class ListsTest {
     public void permutationsTest(){
         List<Integer> li = new ArrayList<Integer>(Arrays.asList(1,2,3,4));
         List<List<Integer>> lip = Lists.permutations(li);
+        //print out all permutations for checking by hand
 //        for(List<Integer> lint : lip){
 //            for(Integer i : lint){
 //                System.out.print(i + " ,");

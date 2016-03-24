@@ -3,6 +3,7 @@ package ch.epfl.xblast.server;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 import ch.epfl.cs108.Sq;
 import ch.epfl.xblast.Cell;
@@ -25,7 +26,7 @@ public final class Board {
      *             if the list doesn't contain enough blocks
      */
     public Board(List<Sq<Block>> blocks) throws IllegalArgumentException {
-        //checks if there are enough blocks in the given list
+        // checks if there are enough blocks in the given list
         if (blocks.size() != Cell.COUNT) {
             throw new IllegalArgumentException(
                     "Specified List of blocks does not contain " + Cell.COUNT
@@ -67,13 +68,15 @@ public final class Board {
      * @throws IllegalArgumentException
      *             if the given list doesn't contain the right amount of
      *             rows/columns
+     * @throws NullPointerException
+     *             if the given list is null
      */
     public static Board ofRows(List<List<Block>> rows)
-            throws IllegalArgumentException {
-        //checking correctness of given list
+            throws IllegalArgumentException, NullPointerException {
+        // checking correctness of given list
         checkBlockMatrix(rows, Cell.ROWS, Cell.COLUMNS);
-        
-        //build new list of constant sequences of every block
+
+        // build new list of constant sequences of every block
         List<Sq<Block>> construct = new ArrayList<Sq<Block>>(Cell.COUNT);
         for (List<Block> row : rows) {
             for (Block cell : row) {
@@ -93,41 +96,43 @@ public final class Board {
      * @throws IllegalArgumentException
      *             if the given list doesn't contain the right amount of
      *             rows/columns
+     * @throws NullPointerException
+     *             if the given list is null
      */
     public static Board ofInnerBlocksWalled(List<List<Block>> innerBlocks)
-            throws IllegalArgumentException {
-        //checking correctness of given list
+            throws IllegalArgumentException, NullPointerException {
+        // checking correctness of given list
         checkBlockMatrix(innerBlocks, Cell.ROWS - 2, Cell.COLUMNS - 2);
-        
-        //creating list for first/last row of board
+
+        // creating list for first/last row of board
         List<Block> outerWall = Collections.nCopies(Cell.COLUMNS,
                 Block.INDESTRUCTIBLE_WALL);
-        
-        //building the new board
+
+        // building the new board
         List<List<Block>> rows = new ArrayList<List<Block>>(Cell.ROWS);
-        
-        //adding first row of walls
+
+        // adding first row of walls
         rows.add(outerWall);
-        
-        //construct inner-rows and add them to list of rows
+
+        // construct inner-rows and add them to list of rows
         List<Block> innerRow;
         for (List<Block> row : innerBlocks) {
             innerRow = new ArrayList<Block>(Cell.COLUMNS);
-            //add left-most wall to this row
+            // add left-most wall to this row
             innerRow.add(Block.INDESTRUCTIBLE_WALL);
             for (Block b : row) {
                 innerRow.add(b);
             }
-            //add right-most wall to this row
+            // add right-most wall to this row
             innerRow.add(Block.INDESTRUCTIBLE_WALL);
-            //add this row to list of rows
+            // add this row to list of rows
             rows.add(innerRow);
         }
-        
-        //adding last row of walls
+
+        // adding last row of walls
         rows.add(outerWall);
-        
-        //return Board with constructed list of rows
+
+        // return Board with constructed list of rows
         return ofRows(rows);
     }
 
@@ -142,21 +147,25 @@ public final class Board {
      * @throws IllegalArgumentException
      *             if the given list doesn't contain the right amount of
      *             rows/columns
+     * @throws NullPointerException
+     *             if the given list is null
      */
     public static Board ofQuadrantNWBlocksWalled(
-            List<List<Block>> quadrantNWBlocks) throws IllegalArgumentException {
-        //checking correctness of given list
+            List<List<Block>> quadrantNWBlocks)
+            throws IllegalArgumentException, NullPointerException {
+        // checking correctness of given list
         checkBlockMatrix(quadrantNWBlocks, (Cell.ROWS / 2), (Cell.COLUMNS / 2));
-        
-        //building new Board from given list
+
+        // building new Board from given list
         List<List<Block>> innerBlocks = new ArrayList<List<Block>>(
                 Cell.ROWS - 2);
-        
-        //mirror every row in given list, gives upper-half of Board
+
+        // mirror every row in given list, gives upper-half of Board
         for (List<Block> row : quadrantNWBlocks) {
             innerBlocks.add(Lists.mirrored(row));
         }
-        //mirror upper-half of Board, return Board with outer wall, represented by newly built Board
+        // mirror upper-half of Board, return Board with outer wall, represented
+        // by newly built Board
         return ofInnerBlocksWalled(Lists.mirrored(innerBlocks));
     }
 
@@ -173,19 +182,19 @@ public final class Board {
      * @throws IllegalArgumentException
      *             if the given list doesn't contain the right amount of
      *             rows/columns
+     * @throws NullPointerException
+     *             if the given list is null
      */
-    // TODO check matrix null?
-    // throw NPE?
     private static void checkBlockMatrix(List<List<Block>> matrix, int rows,
-            int columns) throws IllegalArgumentException {
-        //check number of rows
-        if (matrix.size() != rows) {
+            int columns) throws IllegalArgumentException, NullPointerException {
+        // check number of rows
+        if (Objects.requireNonNull(matrix).size() != rows) {
             throw new IllegalArgumentException(
                     "Specified list of rows does not contain " + rows
                             + " entries. (" + matrix.size() + ")");
         } else {
             int count = 0;
-            //check number of columns in every row
+            // check number of columns in every row
             for (List<Block> row : matrix) {
                 if (row.size() != columns) {
                     throw new IllegalArgumentException("Row " + count

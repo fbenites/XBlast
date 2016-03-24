@@ -76,14 +76,10 @@ public final class Player {
     public Player(PlayerID id, int lives, Cell position, int maxBombs,
             int bombRange) throws IllegalArgumentException,
             NullPointerException {
-        this(id, Sq.repeat(Ticks.PLAYER_INVULNERABLE_TICKS,
-                new LifeState(lives, LifeState.State.INVULNERABLE)).concat(
-                Sq.constant(new LifeState(lives, LifeState.State.VULNERABLE))),
-                Sq.constant(new DirectedPosition(SubCell
-                        .centralSubCellOf(Objects.requireNonNull(position)),
-                        Direction.S)), maxBombs, bombRange);
-        // TODO create method to create LiveStates, used here and in
-        // statesForNextLife
+        this(id, Player.createLifeStates(lives), Sq
+                .constant(new DirectedPosition(SubCell.centralSubCellOf(Objects
+                        .requireNonNull(position)), Direction.S)), maxBombs,
+                bombRange);
     }
 
     /**
@@ -117,27 +113,13 @@ public final class Player {
      * Gives the sequence of LifeStates for this Players next life, if the
      * Player has any lives left.
      * 
-     * @return
+     * @return LifeStates for Players next life
      */
     public Sq<LifeState> statesForNextLife() {
-        // if current amount of lives is one, player will permanently die
-        if (this.lives() == 1) {
-            // sequence of player dying, then permanent death
-            return Sq.repeat(Ticks.PLAYER_DYING_TICKS,
-                    new LifeState(1, LifeState.State.DYING)).concat(
-                    Sq.constant(new LifeState(0, LifeState.State.DEAD)));
-        } else {
-            // sequence of player dying, being invulnerable at the start of his
-            // next life (now one life less), being vulnerable
-            return Sq
-                    .repeat(Ticks.PLAYER_DYING_TICKS,
-                            new LifeState(this.lives(), LifeState.State.DYING))
-                    .concat(Sq.repeat(Ticks.PLAYER_INVULNERABLE_TICKS,
-                            new LifeState(this.lives() - 1,
-                                    LifeState.State.INVULNERABLE)))
-                    .concat(Sq.constant(new LifeState(this.lives() - 1,
-                            LifeState.State.VULNERABLE)));
-        }
+        // Player is dying, then states with one life less are added
+        return Sq.repeat(Ticks.PLAYER_DYING_TICKS,
+                new LifeState(this.lives(), LifeState.State.DYING)).concat(
+                Player.createLifeStates(this.lives() - 1));
     }
 
     /**
@@ -200,8 +182,10 @@ public final class Player {
      * @param newMaxBombs
      *            the new amount of bombs
      * @return a Player with the amount of bombs given
+     * @throws IllegalArgumentException
+     *             if the new amount of bombs is negative
      */
-    public Player withMaxBombs(int newMaxBombs) {
+    public Player withMaxBombs(int newMaxBombs) throws IllegalArgumentException {
         return new Player(this.id, this.ls, this.dPos, newMaxBombs, this.bRange);
     }
 
@@ -220,8 +204,11 @@ public final class Player {
      * @param newBombRange
      *            the new bomb range
      * @return a Player with the bomb range given
+     * @throws IllegalArgumentException
+     *             if the new bomb range is negative
      */
-    public Player withBombRange(int newBombRange) {
+    public Player withBombRange(int newBombRange)
+            throws IllegalArgumentException {
         return new Player(this.id, this.ls, this.dPos, this.maxB, newBombRange);
     }
 
@@ -233,6 +220,25 @@ public final class Player {
     public Bomb newBomb() {
         return new Bomb(this.id, this.position().containingCell(),
                 Ticks.BOMB_FUSE_TICKS, this.bRange);
+    }
+
+    /**
+     * Creates LifeStates according to the number of lives. First a short state
+     * of invulnerability, then constant vulnerability. If number of lives is
+     * zero, constant state of death is returned.
+     * 
+     * @param lives
+     *            the number of lives
+     * @return LifeStates according to number of lives
+     */
+    private static Sq<LifeState> createLifeStates(int lives) {
+        // prevents an exception from being thrown, if states for next live is
+        // called on a dead player
+        if (lives < 0)
+            lives = 0;
+        return Sq.repeat(Ticks.PLAYER_INVULNERABLE_TICKS,
+                new LifeState(lives, LifeState.State.INVULNERABLE)).concat(
+                Sq.constant(new LifeState(lives, LifeState.State.VULNERABLE)));
     }
 
     /**

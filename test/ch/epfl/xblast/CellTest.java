@@ -9,7 +9,6 @@ import org.junit.Test;
  * Provided
  */
 public class CellTest {
-    //TODO check if tests complete
     @Test
     public void rowMajorIndexCorrespondsToOrder() {
         int i = 0;
@@ -53,7 +52,7 @@ public class CellTest {
         assertEquals("(14,12)", Cell.SPIRAL_ORDER.get(26).toString());
         assertEquals("(0,12)", Cell.SPIRAL_ORDER.get(40).toString());
         // center
-        assertEquals("(8,6)", Cell.SPIRAL_ORDER.get(194).toString());
+        assertEquals("(8,6)", Cell.SPIRAL_ORDER.get(Cell.COUNT - 1).toString());
         
         // also assures equals() is working
         //corners
@@ -62,7 +61,7 @@ public class CellTest {
         assertEquals(new Cell(14,12), Cell.SPIRAL_ORDER.get(26));
         assertEquals(new Cell(0,12), Cell.SPIRAL_ORDER.get(40));
         //center
-        assertEquals(new Cell(8,6), Cell.SPIRAL_ORDER.get(194));
+        assertEquals(new Cell(8,6), Cell.SPIRAL_ORDER.get(Cell.COUNT - 1));
     }
 
     @Test

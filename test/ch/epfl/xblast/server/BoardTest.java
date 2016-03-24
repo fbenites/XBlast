@@ -82,9 +82,8 @@ public class BoardTest {
             Arrays.asList(xx, XX, xx, XX, xx, XX))); //one block missing
     }
     
-    @Test
+    @Test(expected = NullPointerException.class)
     public void nullTest(){
-        //thorw npe on check matrix?
         Board.ofQuadrantNWBlocksWalled(null);
     }
 

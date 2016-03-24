@@ -10,7 +10,6 @@ import org.junit.Test;
  * Provided
  */
 public class DirectionTest {
-    //TODO check if tests complete
     @Test
     public void oppositeOfOppositeIsIdentity() {
         for (Direction d: Direction.values())
