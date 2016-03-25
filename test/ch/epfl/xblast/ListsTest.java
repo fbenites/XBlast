@@ -69,4 +69,25 @@ public class ListsTest {
         lip = Lists.permutations(li);
         assertEquals(6, lip.size());
     }
+    
+    @Test(expected = UnsupportedOperationException.class)
+    public void mirroredImmutabilityTest(){
+        List<Integer> li = new ArrayList<Integer>(Arrays.asList(2,3));
+        li = Lists.mirrored(li);
+        li.add(1);
+    }
+    
+    @Test(expected = UnsupportedOperationException.class)
+    public void permutationsImmutabilityTest01(){
+        List<Integer> li = new ArrayList<Integer>(Arrays.asList(2,3));
+        List<List<Integer>> lip = Lists.permutations(li);
+        lip.add(Arrays.asList(1));
+    }
+    
+    @Test(expected = UnsupportedOperationException.class)
+    public void permutationsImmutabilityTest02(){
+        List<Integer> li = new ArrayList<Integer>(Arrays.asList(2,3));
+        List<List<Integer>> lip = Lists.permutations(li);
+        lip.get(0).add(1);
+    }
 }

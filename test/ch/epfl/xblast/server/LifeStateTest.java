@@ -6,6 +6,10 @@ import org.junit.Test;
 
 import ch.epfl.xblast.server.Player.LifeState;
 
+/**
+ * @author Lorenz Rasch (249937)
+ *
+ */
 public class LifeStateTest {
 
     @Test(expected = IllegalArgumentException.class)

@@ -110,4 +110,10 @@ public class BombTest {
             }
         }
     }
+    
+    @Test(expected = UnsupportedOperationException.class)
+    public void explosionImutabilityTest(){
+        List<Sq<Sq<Cell>>> ex = new Bomb(PlayerID.PLAYER_1, new Cell(4,4), 9, 4).explosion();
+        ex.add(Sq.constant(Sq.constant(new Cell(1,1))));
+    }
 }

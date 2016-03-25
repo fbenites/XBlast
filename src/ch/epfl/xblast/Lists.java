@@ -36,7 +36,7 @@ public final class Lists {
         List<T> sub = new ArrayList<T>(l).subList(0, l.size() - 1);
         Collections.reverse(sub);
         full.addAll(sub);
-        return full;
+        return Collections.unmodifiableList(full);
     }
 
     /**
@@ -61,11 +61,11 @@ public final class Lists {
                 for (int i = 0; i <= list.size(); i++) {
                     List<T> list2 = new ArrayList<T>(list);
                     list2.add(i, t);
-                    result.add(list2);
+                    result.add(Collections.unmodifiableList(list2));
                 }
             }
         }
-        return result;
+        return Collections.unmodifiableList(result);
     }
 
 }

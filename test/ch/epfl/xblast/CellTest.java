@@ -63,6 +63,18 @@ public class CellTest {
         //center
         assertEquals(new Cell(8,6), Cell.SPIRAL_ORDER.get(Cell.COUNT - 1));
     }
+    
+    //added by me
+    @Test(expected = UnsupportedOperationException.class)
+    public void rowMajorOrderImmutabilityTest(){
+        Cell.ROW_MAJOR_ORDER.add(new Cell(1,1));
+    }
+    
+    //added by me
+    @Test(expected = UnsupportedOperationException.class)
+    public void spiralOrderImmutabilityTest(){
+        Cell.SPIRAL_ORDER.add(new Cell(1,1));
+    }
 
     @Test
     public void constructorCorrectlyNormalizesCoordinates() {

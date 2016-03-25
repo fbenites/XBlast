@@ -9,6 +9,10 @@ import ch.epfl.xblast.Direction;
 import ch.epfl.xblast.SubCell;
 import ch.epfl.xblast.server.Player.DirectedPosition;
 
+/**
+ * @author Lorenz Rasch (249937)
+ *
+ */
 public class DirectedPositionTest {
 
     @Test(expected = NullPointerException.class)

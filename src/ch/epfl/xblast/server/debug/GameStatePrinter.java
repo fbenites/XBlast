@@ -5,9 +5,13 @@ import java.util.List;
 import ch.epfl.xblast.Cell;
 import ch.epfl.xblast.server.Block;
 import ch.epfl.xblast.server.Board;
+import ch.epfl.xblast.server.Bomb;
 import ch.epfl.xblast.server.GameState;
 import ch.epfl.xblast.server.Player;
 
+/**
+ * Provided
+ */
 public final class GameStatePrinter {
     private GameStatePrinter() {}
 
@@ -24,8 +28,15 @@ public final class GameStatePrinter {
                         continue xLoop;
                     }
                 }
-                Block b = board.blockAt(c);
-                System.out.print(stringForBlock(b));
+                if(s.bombedCells().containsKey(c)){
+                    System.out.print(stringForBomb(s.bombedCells().get(c)));
+                    continue xLoop;
+                } else if (s.blastedCells().contains(c)) {
+                    System.out.print("OO");
+                } else {
+                    Block b = board.blockAt(c);
+                    System.out.print(stringForBlock(b));
+                }
             }
             System.out.println();
         }
@@ -54,4 +65,9 @@ public final class GameStatePrinter {
         default: throw new Error();
         }
     }
+    
+    private static String stringForBomb(Bomb b) {
+        return "ó" + b.fuseLength();
+    }
+    
 }

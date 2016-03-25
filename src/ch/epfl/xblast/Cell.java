@@ -21,10 +21,8 @@ public final class Cell {
     /**
      * constant lists containing the grids Cells in row-major and spiral order
      */
-    public static List<Cell> ROW_MAJOR_ORDER = Collections
-            .unmodifiableList(rowMajorOrder());
-    public static List<Cell> SPIRAL_ORDER = Collections
-            .unmodifiableList(spiralOrder());
+    public static List<Cell> ROW_MAJOR_ORDER = rowMajorOrder();
+    public static List<Cell> SPIRAL_ORDER = spiralOrder();
 
     private final int x, y;
 
@@ -121,14 +119,14 @@ public final class Cell {
      * 
      * @return the list containing the grids Cells in row-major order
      */
-    private static ArrayList<Cell> rowMajorOrder() {
-        ArrayList<Cell> list = new ArrayList<Cell>();
+    private static List<Cell> rowMajorOrder() {
+        List<Cell> list = new ArrayList<Cell>();
         for (int y = 0; y < ROWS; y++) {
             for (int x = 0; x < COLUMNS; x++) {
                 list.add(new Cell(x, y));
             }
         }
-        return list;
+        return Collections.unmodifiableList(list);
     }
 
     /**
@@ -136,7 +134,7 @@ public final class Cell {
      * 
      * @return the list containing the grids Cells in spiral order
      */
-    private static ArrayList<Cell> spiralOrder() {
+    private static List<Cell> spiralOrder() {
         /*
          * Algorithm to add cells in spiral order: Add top row, then rotate grid
          * against clock until all cells are added.
@@ -150,7 +148,7 @@ public final class Cell {
             iy.add(i);
         }
         boolean horizontal = true;
-        ArrayList<Cell> spiral = new ArrayList<Cell>();
+        List<Cell> spiral = new ArrayList<Cell>();
         List<Integer> i1, i2;
         while (!iy.isEmpty() && !ix.isEmpty()) {
             if (horizontal) {
@@ -171,7 +169,7 @@ public final class Cell {
             Collections.reverse(i1);
             horizontal = !horizontal;
         }
-        return spiral;
+        return Collections.unmodifiableList(spiral);
     }
 
 }
