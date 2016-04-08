@@ -18,6 +18,9 @@ import ch.epfl.xblast.Cell;
 import ch.epfl.xblast.Direction;
 import ch.epfl.xblast.Lists;
 import ch.epfl.xblast.PlayerID;
+import ch.epfl.xblast.SubCell;
+import ch.epfl.xblast.server.Player.DirectedPosition;
+import ch.epfl.xblast.server.Player.LifeState;
 
 /**
  * Class representing the state of the game XBlast at a given time/tick.
@@ -280,9 +283,9 @@ public final class GameState {
 
         /* 5 players */
         Map<Cell, Bomb> bombedCells1 = GameState.bombedCells(bombs1);
-        List<Player> players1 = GameState
-                .nextPlayers(players0, playerBonuses, bombedCells1.keySet(),
-                        board1, blastedCells1, speedChangeEvents);
+        List<Player> players1 = GameState.nextPlayers(this.players(),
+                playerBonuses, bombedCells1.keySet(), board1, blastedCells1,
+                speedChangeEvents);
 
         return new GameState(this.ticks() + 1, board1, players1, bombs1,
                 explosions1, blasts1);
@@ -427,8 +430,99 @@ public final class GameState {
             Map<PlayerID, Bonus> playerBonuses, Set<Cell> bombedCells1,
             Board board1, Set<Cell> blastedCells1,
             Map<PlayerID, Optional<Direction>> speedChangeEvents) {
-        // TODO method stage 6
-        return Collections.unmodifiableList(players0);
+        List<Player> players1 = new ArrayList<Player>();
+        for (Player p : players0) {
+            Sq<Player.DirectedPosition> dp1 = p.directedPositions();
+            /* 1 directed position, speed change event */
+            if (speedChangeEvents.containsKey(p.id())) {
+                // the sc event for the player has no value, he stopps at the
+                // next central subcell
+                if (!speedChangeEvents.get(p.id()).isPresent()) {
+                    // position sequence to next subcell
+                    dp1 = p.directedPositions().takeWhile(
+                            u -> !u.position().isCentral());
+                    // stopped position sequence
+                    dp1 = dp1.concat(Player.DirectedPosition.stopped(p
+                            .directedPositions().findFirst(
+                                    u -> u.position().isCentral())));
+                    // the sc event for the player is paralell to the previous
+                    // direction, change direction immediately
+                } else if (speedChangeEvents.get(p.id()).get()
+                        .isParallelTo(p.direction())) {
+                    dp1 = Player.DirectedPosition.moving(new DirectedPosition(p
+                            .position(), speedChangeEvents.get(p.id()).get()));
+                    // the player want to change direction perpendicular, change
+                    // direction at next central subcell
+                } else {
+                    // position sequence to next subcell
+                    dp1 = p.directedPositions().takeWhile(
+                            u -> !u.position().isCentral());
+                    // position at next subcell with new direction
+                    DirectedPosition central = new DirectedPosition(p
+                            .directedPositions()
+                            .findFirst(u -> u.position().isCentral())
+                            .position(), speedChangeEvents.get(p.id()).get());
+                    // moving sequence with new direction, from next central
+                    // subcell
+                    dp1 = dp1.concat(DirectedPosition.moving(central));
+                }
+            }
+            /* 2 directed position, blocked or not */
+            if(p.lifeState().state() == LifeState.State.DYING || p.lifeState().state() == LifeState.State.DEAD){
+                //no movement if player is dying or dead
+            } else {
+                Cell nextCell = dp1.head().position().containingCell()
+                        .neighbor(dp1.head().direction());
+    
+                // no movement only if, next cell is blocked AND player is on
+                // central subcell
+                // is equal to, movement if, next cell isn't blocked OR player isn't
+                // on central subcell
+                if (board1.blockAt(nextCell).canHostPlayer()
+                        || !dp1.head().position().isCentral()) {
+                    Cell thisCell = dp1.head().position().containingCell();
+                    // check possibility of moving when a bomb is involved
+                    if (bombedCells1.contains(thisCell)) {
+                        SubCell thisSubCell = dp1.head().position();
+                        SubCell nextSubCell = dp1.tail().head().position();
+                        // movement on cell with bomb only possible, if distance to
+                        // central subcell increases OR player is further away from
+                        // central subcell than distance 6
+                        if ((thisSubCell.distanceToCentral() > nextSubCell
+                                .distanceToCentral())
+                                || thisSubCell.distanceToCentral() > 6) {
+                            dp1 = dp1.tail();
+                        } else {
+                            // no movement
+                        }
+                    } else {
+                        // no bomb on this cell, normal movement
+                        dp1 = dp1.tail();
+                    }
+                } else {
+                    // no movement
+                }
+            }
+
+            /* 3 life state */
+            Sq<Player.LifeState> ls1 = p.lifeStates();
+            ls1 = ls1.tail();
+            // player hit by explosion particle loses a life
+            if (blastedCells1.contains(p.position().containingCell()) && p.lifeState().state() == Player.LifeState.State.VULNERABLE) {
+                ls1 = p.statesForNextLife();
+            }
+
+            // create new player
+            Player player1 = new Player(p.id(), ls1, dp1, p.maxBombs(),
+                    p.bombRange());
+            /* 4 bonus */
+            if (playerBonuses.containsKey(p.id())) {
+                // collected bonus is applied to corresponding player
+                player1 = playerBonuses.get(p.id()).applyTo(player1);
+            }
+            players1.add(player1);
+        }
+        return Collections.unmodifiableList(players1);
     }
 
     /**
@@ -482,12 +576,7 @@ public final class GameState {
                     if (b.position() == p.position().containingCell())
                         spotTaken = true;
                 }
-                for (Bomb b : bombs1) {
-                    // check if players position is already taken by a bomb
-                    if (b.position() == p.position().containingCell())
-                        spotTaken = true;
-                }
-                // player not a max bomb capacity and on free spot, drops new
+                // player not at max bomb capacity and on free spot, drops new
                 // bomb
                 if (counter < p.maxBombs() && !spotTaken) {
                     bombs1.add(p.newBomb());

@@ -31,8 +31,12 @@ public final class GameStatePrinter {
                 if(s.bombedCells().containsKey(c)){
                     System.out.print(stringForBomb(s.bombedCells().get(c)));
                     continue xLoop;
+                } else if (board.blockAt(c).castsShadow()){
+                    Block b = board.blockAt(c);
+                    System.out.print(stringForBlock(b));
                 } else if (s.blastedCells().contains(c)) {
                     System.out.print("OO");
+                    continue xLoop;
                 } else {
                     Block b = board.blockAt(c);
                     System.out.print(stringForBlock(b));
