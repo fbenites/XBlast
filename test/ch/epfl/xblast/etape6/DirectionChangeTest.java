@@ -69,7 +69,8 @@ public class DirectionChangeTest {
         PlayersEventsGenerator playersEventsGen = new PlayersEventsGenerator(playersEvents);
 
         String fileName = getClass().getResource("/stage6files/direction_changes_players_positions.txt").toURI().getPath();
-		Stream<String> player_positions = Files.lines(Paths.get(fileName));
+        fileName = fileName.substring(1, fileName.length());
+        Stream<String> player_positions = Files.lines(Paths.get(fileName));
     	Iterator<String> pos_iterator = player_positions.iterator();
         
         GameSimulation.runGame(playersEventsGen, s, pos_iterator);
@@ -113,7 +114,8 @@ public class DirectionChangeTest {
         PlayersEventsGenerator playersEventsGen = new PlayersEventsGenerator(playersEvents);
 
         String fileName = getClass().getResource("/stage6files/stuckonwall_positions.txt").toURI().getPath();
-		Stream<String> player_positions = Files.lines(Paths.get(fileName));
+        fileName = fileName.substring(1, fileName.length());
+        Stream<String> player_positions = Files.lines(Paths.get(fileName));
     	Iterator<String> pos_iterator = player_positions.iterator();
         
         GameSimulation.runGame(playersEventsGen, s, pos_iterator);
@@ -170,7 +172,8 @@ public class DirectionChangeTest {
         PlayersEventsGenerator playersEventsGen = new PlayersEventsGenerator(playersEvents);
 
         String fileName = getClass().getResource("/stage6files/stuckonbomb_positions.txt").toURI().getPath();
-		Stream<String> player_positions = Files.lines(Paths.get(fileName));
+        fileName = fileName.substring(1, fileName.length());
+        Stream<String> player_positions = Files.lines(Paths.get(fileName));
     	Iterator<String> pos_iterator = player_positions.iterator();
         
         GameSimulation.runGame(playersEventsGen, s, pos_iterator);
@@ -227,7 +230,8 @@ public class DirectionChangeTest {
         PlayersEventsGenerator playersEventsGen = new PlayersEventsGenerator(playersEvents);
 
         String fileName = getClass().getResource("/stage6files/stuckoncrumblingwall_positions.txt").toURI().getPath();
-		Stream<String> player_positions = Files.lines(Paths.get(fileName));
+        fileName = fileName.substring(1, fileName.length());
+        Stream<String> player_positions = Files.lines(Paths.get(fileName));
     	Iterator<String> pos_iterator = player_positions.iterator();
         
         GameSimulation.runGame(playersEventsGen, s, pos_iterator);
@@ -266,7 +270,8 @@ public class DirectionChangeTest {
         PlayersEventsGenerator playersEventsGen = new PlayersEventsGenerator(playersEvents);
 
         String fileName = getClass().getResource("/stage6files/playerstopsnextcentral_positions.txt").toURI().getPath();
-		Stream<String> player_positions = Files.lines(Paths.get(fileName));
+        fileName = fileName.substring(1, fileName.length());
+        Stream<String> player_positions = Files.lines(Paths.get(fileName));
     	Iterator<String> pos_iterator = player_positions.iterator();
         
         GameSimulation.runGame(playersEventsGen, s, pos_iterator);
@@ -306,6 +311,7 @@ public class DirectionChangeTest {
 
 
         String fileName = getClass().getResource("/stage6files/playerleavesbombedcell_positions.txt").toURI().getPath();
+        fileName = fileName.substring(1, fileName.length());
 		Stream<String> player_positions = Files.lines(Paths.get(fileName));
     	Iterator<String> pos_iterator = player_positions.iterator();
         
