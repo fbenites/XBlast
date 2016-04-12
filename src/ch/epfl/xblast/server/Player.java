@@ -230,12 +230,11 @@ public final class Player {
      * @param lives
      *            the number of lives
      * @return LifeStates according to number of lives
+     * @throws IllegalArgumentException
+     *             if the number of lives is negative
      */
-    private static Sq<LifeState> createLifeStates(int lives) {
-        // prevents an exception from being thrown, if states for next live is
-        // called on a dead player
-        if (lives < 0)
-            lives = 0;
+    private static Sq<LifeState> createLifeStates(int lives)
+            throws IllegalArgumentException {
         return Sq.repeat(Ticks.PLAYER_INVULNERABLE_TICKS,
                 new LifeState(lives, LifeState.State.INVULNERABLE)).concat(
                 Sq.constant(new LifeState(lives, LifeState.State.VULNERABLE)));

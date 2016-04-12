@@ -468,9 +468,8 @@ public final class GameState {
                 }
             }
             /* 2 directed position, blocked or not */
-            if(p.lifeState().state() == LifeState.State.DYING || p.lifeState().state() == LifeState.State.DEAD){
-                //no movement if player is dying or dead
-            } else {
+            //no movement if player is dying or dead
+            if(p.isAlive() && p.lifeState().state() != LifeState.State.DYING){
                 Cell nextCell = dp1.head().position().containingCell()
                         .neighbor(dp1.head().direction());
     
@@ -488,7 +487,7 @@ public final class GameState {
                         // movement on cell with bomb only possible, if distance to
                         // central subcell increases OR player is further away from
                         // central subcell than distance 6
-                        if ((thisSubCell.distanceToCentral() > nextSubCell
+                        if ((thisSubCell.distanceToCentral() < nextSubCell
                                 .distanceToCentral())
                                 || thisSubCell.distanceToCentral() > 6) {
                             dp1 = dp1.tail();
@@ -573,7 +572,7 @@ public final class GameState {
                     // count bombs dropped by this player
                     counter = b.ownerId() == p.id() ? counter + 1 : counter;
                     // check if players position is already taken by a bomb
-                    if (b.position() == p.position().containingCell())
+                    if (b.position().equals(p.position().containingCell()))
                         spotTaken = true;
                 }
                 // player not at max bomb capacity and on free spot, drops new
