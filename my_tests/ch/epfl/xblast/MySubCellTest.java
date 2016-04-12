@@ -8,7 +8,7 @@ import org.junit.Test;
 /**
  * Provided
  */
-public class SubCellTest {
+public class MySubCellTest {
     @Test
     public void centralSubCellOfKnowCellIsCorrect() {
         SubCell c = SubCell.centralSubCellOf(new Cell(2, 1));

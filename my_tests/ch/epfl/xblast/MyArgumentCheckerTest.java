@@ -7,7 +7,7 @@ import org.junit.Test;
 /**
  * @author Lorenz Rasch (249937)
  */
-public class ArgumentCheckerTest {
+public class MyArgumentCheckerTest {
 
     @Test
     public void normalTest() {

@@ -15,7 +15,7 @@ import ch.epfl.xblast.server.Player.LifeState;
 /**
  * @author Lorenz Rasch (249937)
  */
-public class PlayerTest {
+public class MyPlayerTest {
 
     // primary constructor
     @Test(expected = NullPointerException.class)

@@ -8,7 +8,7 @@ import org.junit.Test;
 /**
  * Provided
  */
-public class CellTest {
+public class MyCellTest {
     @Test
     public void rowMajorIndexCorrespondsToOrder() {
         int i = 0;

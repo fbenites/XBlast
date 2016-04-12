@@ -13,7 +13,7 @@ import ch.epfl.xblast.PlayerID;
 /**
  * @author Lorenz Rasch (249937)
  */
-public class BombTest {
+public class MyBombTest {
 
     //primary constructor exceptions
     @Test(expected = NullPointerException.class)

@@ -9,7 +9,7 @@ import org.junit.Test;
 /**
  * Provided
  */
-public class DirectionTest {
+public class MyDirectionTest {
     @Test
     public void oppositeOfOppositeIsIdentity() {
         for (Direction d: Direction.values())
