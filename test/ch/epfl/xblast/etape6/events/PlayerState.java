@@ -46,7 +46,6 @@ public class PlayerState extends Event {
      */
     @Override
     public boolean equals(Object obj) {
-        // TODO Auto-generated method stub
         if (this.getClass().equals(obj.getClass())) {
             PlayerState that = (PlayerState) obj;
             return (this.state == that.state) && (this.bombRange == that.bombRange) && (this.maxBombs == that.maxBombs)

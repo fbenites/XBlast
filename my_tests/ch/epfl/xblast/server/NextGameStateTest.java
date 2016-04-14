@@ -80,7 +80,7 @@ public class NextGameStateTest {
     public void nextTest() {
         GameState gs = new GameState(BOARD, PLAYERS);
         for (int i = 0; i < 5; i++) {
-            System.out.println("--- Game State " + gs.ticks() + " ---");
+//            System.out.println("--- Game State " + gs.ticks() + " ---");
             gs = gs.next(Collections.emptyMap(), Collections.emptySet());
         }
         assertFalse(gs.isGameOver());
@@ -94,25 +94,25 @@ public class NextGameStateTest {
         GameState gs = new GameState(0, BOARD, PLAYERS, BOMBS,
                 new ArrayList<Sq<Sq<Cell>>>(), new ArrayList<Sq<Cell>>());
         for (int i = 0; i < 10; i++) {
-            System.out.println("--- Game State " + gs.ticks() + " ---");
-            GameStatePrinter.printGameState(gs);
+//            System.out.println("--- Game State " + gs.ticks() + " ---");
+//            GameStatePrinter.printGameState(gs);
             gs = gs.next(Collections.emptyMap(), Collections.emptySet());
         }
         assertEquals(0, gs.bombedCells().size());
         assertEquals(24, gs.blastedCells().size());
-        System.out.println("----------------------------");
+//        System.out.println("----------------------------");
         for (int i = 10; i < 30; i++) {
-            System.out.println("--- Game State " + gs.ticks() + " ---");
+//            System.out.println("--- Game State " + gs.ticks() + " ---");
             gs = gs.next(Collections.emptyMap(), Collections.emptySet());
         }
-        System.out.println("----------------------------");
+//        System.out.println("----------------------------");
         for (int i = 30; i < 35; i++) {
-            System.out.println("--- Game State " + gs.ticks() + " ---");
-            GameStatePrinter.printGameState(gs);
+//            System.out.println("--- Game State " + gs.ticks() + " ---");
+//            GameStatePrinter.printGameState(gs);
             gs = gs.next(Collections.emptyMap(), Collections.emptySet());
         }
-        System.out.println("--- Game State " + gs.ticks() + " ---");
-        GameStatePrinter.printGameState(gs);
+//        System.out.println("--- Game State " + gs.ticks() + " ---");
+//        GameStatePrinter.printGameState(gs);
         assertEquals(12, gs.blastedCells().size());
     }
 
@@ -122,25 +122,25 @@ public class NextGameStateTest {
         GameState gs = new GameState(0, BOARD, PLAYERS, BOMBS2,
                 new ArrayList<Sq<Sq<Cell>>>(), new ArrayList<Sq<Cell>>());
         for (int i = 0; i < 10; i++) {
-            System.out.println("--- Game State " + gs.ticks() + " ---");
-            GameStatePrinter.printGameState(gs);
+//            System.out.println("--- Game State " + gs.ticks() + " ---");
+//            GameStatePrinter.printGameState(gs);
             gs = gs.next(Collections.emptyMap(), Collections.emptySet());
         }
         assertEquals(0, gs.bombedCells().size());
         assertEquals(18, gs.blastedCells().size());
-        System.out.println("----------------------------");
+//        System.out.println("----------------------------");
         for (int i = 10; i < 30; i++) {
-            System.out.println("--- Game State " + gs.ticks() + " ---");
+//            System.out.println("--- Game State " + gs.ticks() + " ---");
             gs = gs.next(Collections.emptyMap(), Collections.emptySet());
         }
-        System.out.println("----------------------------");
+//        System.out.println("----------------------------");
         for (int i = 30; i < 35; i++) {
-            System.out.println("--- Game State " + gs.ticks() + " ---");
-            GameStatePrinter.printGameState(gs);
+//            System.out.println("--- Game State " + gs.ticks() + " ---");
+//            GameStatePrinter.printGameState(gs);
             gs = gs.next(Collections.emptyMap(), Collections.emptySet());
         }
-        System.out.println("--- Game State " + gs.ticks() + " ---");
-        GameStatePrinter.printGameState(gs);
+//        System.out.println("--- Game State " + gs.ticks() + " ---");
+//        GameStatePrinter.printGameState(gs);
         assertEquals(8, gs.blastedCells().size());
     }
 
@@ -150,24 +150,24 @@ public class NextGameStateTest {
         GameState gs = new GameState(0, BOARD2, PLAYERS, BOMBS2,
                 new ArrayList<Sq<Sq<Cell>>>(), new ArrayList<Sq<Cell>>());
         for (int i = 0; i < 10; i++) {
-            System.out.println("--- Game State " + gs.ticks() + " ---");
-            GameStatePrinter.printGameState(gs);
+//            System.out.println("--- Game State " + gs.ticks() + " ---");
+//            GameStatePrinter.printGameState(gs);
             gs = gs.next(Collections.emptyMap(), Collections.emptySet());
         }
-        System.out.println("----------------------------");
+//        System.out.println("----------------------------");
         for (int i = 10; i < 30; i++) {
-            System.out.println("--- Game State " + gs.ticks() + " ---");
+//            System.out.println("--- Game State " + gs.ticks() + " ---");
             gs = gs.next(Collections.emptyMap(), Collections.emptySet());
         }
-        System.out.println("----------------------------");
+//        System.out.println("----------------------------");
         for (int i = 30; i < 35; i++) {
-            System.out.println("--- Game State " + gs.ticks() + " ---");
-            GameStatePrinter.printGameState(gs);
+//            System.out.println("--- Game State " + gs.ticks() + " ---");
+//            GameStatePrinter.printGameState(gs);
             gs = gs.next(Collections.emptyMap(), Collections.emptySet());
         }
-        System.out.println("--- Game State " + gs.ticks() + " ---");
+//        System.out.println("--- Game State " + gs.ticks() + " ---");
         assertTrue(true);
-        GameStatePrinter.printGameState(gs);
+//        GameStatePrinter.printGameState(gs);
     }
 
     // wall get destroyed, bonuses vanish
@@ -176,32 +176,32 @@ public class NextGameStateTest {
         GameState gs = new GameState(0, BOARD3, PLAYERS, BOMBS3,
                 new ArrayList<Sq<Sq<Cell>>>(), new ArrayList<Sq<Cell>>());
         for (int i = 0; i < 10; i++) {
-            System.out.println("--- Game State " + gs.ticks() + " ---");
-            GameStatePrinter.printGameState(gs);
+//            System.out.println("--- Game State " + gs.ticks() + " ---");
+//            GameStatePrinter.printGameState(gs);
             gs = gs.next(Collections.emptyMap(), Collections.emptySet());
         }
-        System.out.println("----------------------------");
+//        System.out.println("----------------------------");
         assertEquals(Block.CRUMBLING_WALL, gs.board().blockAt(new Cell(6, 6)));
         for (int i = 10; i < 30; i++) {
-            System.out.println("--- Game State " + gs.ticks() + " ---");
+//            System.out.println("--- Game State " + gs.ticks() + " ---");
             gs = gs.next(Collections.emptyMap(), Collections.emptySet());
         }
-        System.out.println("----------------------------");
+//        System.out.println("----------------------------");
         for (int i = 30; i < 35; i++) {
-            System.out.println("--- Game State " + gs.ticks() + " ---");
-            GameStatePrinter.printGameState(gs);
+//            System.out.println("--- Game State " + gs.ticks() + " ---");
+//            GameStatePrinter.printGameState(gs);
             gs = gs.next(Collections.emptyMap(), Collections.emptySet());
         }
-        System.out.println("--- Game State " + gs.ticks() + " ---");
-        GameStatePrinter.printGameState(gs);
-        System.out.println("----------------------------");
+//        System.out.println("--- Game State " + gs.ticks() + " ---");
+//        GameStatePrinter.printGameState(gs);
+//        System.out.println("----------------------------");
         for (int i = 35; i < 75; i++) {
-            System.out.println("--- Game State " + gs.ticks() + " ---");
+//            System.out.println("--- Game State " + gs.ticks() + " ---");
             gs = gs.next(Collections.emptyMap(), Collections.emptySet());
         }
-        System.out.println("----------------------------");
-        System.out.println("--- Game State " + gs.ticks() + " ---");
-        GameStatePrinter.printGameState(gs);
+//        System.out.println("----------------------------");
+//        System.out.println("--- Game State " + gs.ticks() + " ---");
+//        GameStatePrinter.printGameState(gs);
 
     }
 
@@ -211,12 +211,12 @@ public class NextGameStateTest {
         GameState gs = new GameState(0, BOARD, PLAYERS2, BOMBS,
                 new ArrayList<Sq<Sq<Cell>>>(), new ArrayList<Sq<Cell>>());
         for (int i = 0; i < 2; i++) {
-            System.out.println("--- Game State " + gs.ticks() + " ---");
-            GameStatePrinter.printGameState(gs);
+//            System.out.println("--- Game State " + gs.ticks() + " ---");
+//            GameStatePrinter.printGameState(gs);
             gs = gs.next(Collections.emptyMap(), Collections.emptySet());
         }
-        System.out.println("--- Game State " + gs.ticks() + " ---");
-        GameStatePrinter.printGameState(gs);
+//        System.out.println("--- Game State " + gs.ticks() + " ---");
+//        GameStatePrinter.printGameState(gs);
         assertEquals(2, gs.ticks());
         for(Player p : gs.alivePlayers()){
             if(p.id() == PlayerID.PLAYER_1 || p.id() == PlayerID.PLAYER_2){
@@ -224,8 +224,8 @@ public class NextGameStateTest {
             }
         }
         gs = gs.next(Collections.emptyMap(), Collections.emptySet());
-        System.out.println("--- Game State " + gs.ticks() + " ---");
-        GameStatePrinter.printGameState(gs);
+//        System.out.println("--- Game State " + gs.ticks() + " ---");
+//        GameStatePrinter.printGameState(gs);
         assertEquals(3, gs.ticks());
         for(Player p : gs.alivePlayers()){
             if(p.id() == PlayerID.PLAYER_1 || p.id() == PlayerID.PLAYER_2){
@@ -234,7 +234,7 @@ public class NextGameStateTest {
         }
         while(gs.ticks() < 10){
             gs = gs.next(Collections.emptyMap(), Collections.emptySet());
-            System.out.println("--- Game State " + gs.ticks() + " ---");
+//            System.out.println("--- Game State " + gs.ticks() + " ---");
         }
         assertEquals(10, gs.ticks());
         assertEquals(4, gs.alivePlayers().size());
@@ -244,8 +244,8 @@ public class NextGameStateTest {
             }
         }
         gs = gs.next(Collections.emptyMap(), Collections.emptySet());
-        System.out.println("--- Game State " + gs.ticks() + " ---");
-        GameStatePrinter.printGameState(gs);
+//        System.out.println("--- Game State " + gs.ticks() + " ---");
+//        GameStatePrinter.printGameState(gs);
         assertEquals(11, gs.ticks());
         assertEquals(3, gs.alivePlayers().size());
         for(Player p : gs.players()){
@@ -258,7 +258,7 @@ public class NextGameStateTest {
         }
         while(gs.ticks() < 74){
             gs = gs.next(Collections.emptyMap(), Collections.emptySet());
-            System.out.println("--- Game State " + gs.ticks() + " ---");
+//            System.out.println("--- Game State " + gs.ticks() + " ---");
         }
         assertEquals(74, gs.ticks());
         for(Player p : gs.players()){
@@ -267,7 +267,7 @@ public class NextGameStateTest {
             }
         }
         gs = gs.next(Collections.emptyMap(), Collections.emptySet());
-        System.out.println("--- Game State " + gs.ticks() + " ---");
+//        System.out.println("--- Game State " + gs.ticks() + " ---");
         assertEquals(75, gs.ticks());
         for(Player p : gs.players()){
             if (p.id() == PlayerID.PLAYER_2){

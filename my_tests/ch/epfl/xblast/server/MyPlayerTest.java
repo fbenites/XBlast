@@ -125,11 +125,6 @@ public class MyPlayerTest {
         ls = ls.dropWhile(u -> u.state() == LifeState.State.DYING);
         assertEquals(0, ls.head().lives());
         assertEquals(LifeState.State.DEAD, ls.head().state());
-
-        p = new Player(PlayerID.PLAYER_1, 0, new Cell(1, 1), 9, 9);
-        ls = p.statesForNextLife();
-        assertEquals(0, ls.head().lives());
-        assertEquals(LifeState.State.DEAD, ls.head().state());
     }
 
     @Test

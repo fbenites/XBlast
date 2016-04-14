@@ -71,7 +71,7 @@ public class LifeTest {
         
         // PlayerState coding: {lives, state, maxBombs, rangeBombs, xPos, yPos }
         
-        //TODO: utiliser conditions ternaires
+        //todo: utiliser conditions ternaires
         int[][] outP1 = new int[totalTime][6];
         int[][] outP2 = new int[totalTime][6];
         int[][] outP3 = new int[totalTime][6];
@@ -168,7 +168,6 @@ public class LifeTest {
         try {
             GameSimulation.runGame(playersEventGen, s, playersStatesGen);
         } catch (InterruptedException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
     }

@@ -99,7 +99,6 @@ public class MyBombTest {
         assertEquals(7, b.range());
     }
     
-    //XXX test not that important, methods really easy
     @Test
     public void explosionTest(){
         List<Sq<Sq<Cell>>> ex = new Bomb(PlayerID.PLAYER_1, new Cell(4,4), 9, 4).explosion();

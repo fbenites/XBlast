@@ -113,7 +113,6 @@ public class BonusTest {
         try {
             GameSimulation.runGame(playersEventGen, s, playersStatesGen);
         } catch (InterruptedException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
     }
@@ -196,7 +195,6 @@ public class BonusTest {
         try {
             GameSimulation.runGame(playersEventGen, s, playersStatesGen);
         } catch (InterruptedException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
     }
