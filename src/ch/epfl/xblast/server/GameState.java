@@ -472,7 +472,6 @@ public final class GameState {
             if(p.isAlive() && p.lifeState().state() != LifeState.State.DYING){
                 Cell nextCell = dp1.head().position().containingCell()
                         .neighbor(dp1.head().direction());
-    
                 // no movement only if, next cell is blocked AND player is on
                 // central subcell
                 // is equal to, movement if, next cell isn't blocked OR player isn't
@@ -489,7 +488,7 @@ public final class GameState {
                         // central subcell than distance 6
                         if ((thisSubCell.distanceToCentral() < nextSubCell
                                 .distanceToCentral())
-                                || thisSubCell.distanceToCentral() > 6) {
+                                || thisSubCell.distanceToCentral() != 6) {
                             dp1 = dp1.tail();
                         } else {
                             // no movement
@@ -507,7 +506,7 @@ public final class GameState {
             Sq<Player.LifeState> ls1 = p.lifeStates();
             ls1 = ls1.tail();
             // player hit by explosion particle loses a life
-            if (blastedCells1.contains(p.position().containingCell()) && p.lifeState().state() == Player.LifeState.State.VULNERABLE) {
+            if (blastedCells1.contains(dp1.head().position().containingCell()) && p.lifeState().state() == Player.LifeState.State.VULNERABLE){
                 ls1 = p.statesForNextLife();
             }
 
