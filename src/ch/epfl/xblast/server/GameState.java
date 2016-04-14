@@ -425,7 +425,24 @@ public final class GameState {
         return new Board(board1);
     }
 
-    // TODO add comments stage 6
+    /**
+     * Gives the next state of the Players(Movement, State) based on consumed
+     * bonuses, bombs, the board, blasted cells and speed change events.
+     * 
+     * @param players0
+     *            The current Players
+     * @param playerBonuses
+     *            a Map associating every consumed bonus to a PlayerID
+     * @param bombedCells1
+     *            a set of cells containing bombs
+     * @param board1
+     *            the next board
+     * @param blastedCells1
+     *            a set of cells with an explosion blast on them
+     * @param speedChangeEvents
+     *            a map associating given commands to a PlayerID
+     * @return the next Players
+     */
     private static List<Player> nextPlayers(List<Player> players0,
             Map<PlayerID, Bonus> playerBonuses, Set<Cell> bombedCells1,
             Board board1, Set<Cell> blastedCells1,
@@ -468,13 +485,14 @@ public final class GameState {
                 }
             }
             /* 2 directed position, blocked or not */
-            //no movement if player is dying or dead
-            if(p.isAlive() && p.lifeState().state() != LifeState.State.DYING){
+            // no movement if player is dying or dead
+            if (p.isAlive() && p.lifeState().state() != LifeState.State.DYING) {
                 Cell nextCell = dp1.head().position().containingCell()
                         .neighbor(dp1.head().direction());
                 // no movement only if, next cell is blocked AND player is on
                 // central subcell
-                // is equal to, movement if, next cell isn't blocked OR player isn't
+                // is equal to, movement if, next cell isn't blocked OR player
+                // isn't
                 // on central subcell
                 if (board1.blockAt(nextCell).canHostPlayer()
                         || !dp1.head().position().isCentral()) {
@@ -483,8 +501,10 @@ public final class GameState {
                     if (bombedCells1.contains(thisCell)) {
                         SubCell thisSubCell = dp1.head().position();
                         SubCell nextSubCell = dp1.tail().head().position();
-                        // movement on cell with bomb only possible, if distance to
-                        // central subcell increases OR player is further away from
+                        // movement on cell with bomb only possible, if distance
+                        // to
+                        // central subcell increases OR player is further away
+                        // from
                         // central subcell than distance 6
                         if ((thisSubCell.distanceToCentral() < nextSubCell
                                 .distanceToCentral())
@@ -506,7 +526,8 @@ public final class GameState {
             Sq<Player.LifeState> ls1 = p.lifeStates();
             ls1 = ls1.tail();
             // player hit by explosion particle loses a life
-            if (blastedCells1.contains(dp1.head().position().containingCell()) && p.lifeState().state() == Player.LifeState.State.VULNERABLE){
+            if (blastedCells1.contains(dp1.head().position().containingCell())
+                    && p.lifeState().state() == Player.LifeState.State.VULNERABLE) {
                 ls1 = p.statesForNextLife();
             }
 
@@ -560,11 +581,8 @@ public final class GameState {
         List<Bomb> bombs1 = new ArrayList<Bomb>();
         // check for every player
         for (Player p : players0) {
-            // player does not want to drop a bomb or is dead, can't drop a bomb
-            if (!bombDropEvents.contains(p.id()) || !p.isAlive()) {
-                continue;
-                // player will drop a bomb
-            } else {
+            // player wants to drop a bomb and is alive, drops a bomb
+            if (bombDropEvents.contains(p.id()) && p.isAlive()) {
                 int counter = 0;
                 boolean spotTaken = false;
                 for (Bomb b : bombs0) {

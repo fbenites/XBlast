@@ -89,23 +89,18 @@ public final class SubCell {
      * @return the neighbor in the given Direction
      */
     public SubCell neighbor(Direction dir) {
-        int newx = this.x();
-        int newy = this.y();
         switch (dir) {
         case N:
-            newy = Math.floorMod(newy - 1, ROWS);
-            break;
+            return new SubCell(this.x(), this.y() - 1);
         case E:
-            newx = Math.floorMod(newx + 1, COLUMNS);
-            break;
+            return new SubCell(this.x() + 1, this.y());
         case S:
-            newy = Math.floorMod(newy + 1, ROWS);
-            break;
+            return new SubCell(this.x(), this.y() + 1);
         case W:
-            newx = Math.floorMod(newx - 1, COLUMNS);
-            break;
+            return new SubCell(this.x() - 1, this.y());
+        default:
+            return new SubCell(this.x(), this.y());
         }
-        return new SubCell(newx, newy);
     }
 
     /**

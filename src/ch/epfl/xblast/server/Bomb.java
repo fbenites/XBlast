@@ -109,7 +109,7 @@ public final class Bomb {
      * @return this bombs fuse length
      */
     public int fuseLength() {
-        return this.fuse.head();
+        return this.fuseLengths().head();
     }
 
     /**

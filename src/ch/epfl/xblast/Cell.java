@@ -75,23 +75,18 @@ public final class Cell {
      * @return the neighbor in the given Direction
      */
     public Cell neighbor(Direction dir) {
-        int newx = this.x();
-        int newy = this.y();
         switch (dir) {
         case N:
-            newy = Math.floorMod(newy - 1, ROWS);
-            break;
+            return new Cell(this.x(), this.y() - 1);
         case E:
-            newx = Math.floorMod(newx + 1, COLUMNS);
-            break;
+            return new Cell(this.x() + 1, this.y());
         case S:
-            newy = Math.floorMod(newy + 1, ROWS);
-            break;
+            return new Cell(this.x(), this.y() + 1);
         case W:
-            newx = Math.floorMod(newx - 1, COLUMNS);
-            break;
+            return new Cell(this.x() - 1, this.y());
+        default:
+            return new Cell(this.x(), this.y());
         }
-        return new Cell(newx, newy);
     }
 
     @Override

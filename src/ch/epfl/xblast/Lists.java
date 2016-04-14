@@ -26,7 +26,7 @@ public final class Lists {
      */
     public static <T> List<T> mirrored(List<T> l)
             throws IllegalArgumentException {
-        if (l.size() == 0) {
+        if (l.isEmpty()) {
             throw new IllegalArgumentException("Specified list is empty.");
         }
         // create new list from provided list
@@ -50,7 +50,7 @@ public final class Lists {
         List<List<T>> result = new ArrayList<List<T>>();
         // permutation of empty List is empty List
         if (l.isEmpty()) {
-            result.add(new ArrayList<T>());
+            result.add(Collections.emptyList());
         } else {
             // take first element, compute permutations of List w/o first
             // element
