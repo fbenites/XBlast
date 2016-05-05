@@ -48,8 +48,7 @@ public final class Player {
         this.dPos = Objects.requireNonNull(directedPos,
                 "Given DirectedPosition is null.");
         // XXX if maxBombs/bombRange is over 9 leave it as it is, the player
-        // will
-        // not receive any bonuses
+        // will not receive any bonuses
         this.maxB = ArgumentChecker.requireNonNegative(maxBombs);
         this.bRange = ArgumentChecker.requireNonNegative(bombRange);
     }

@@ -15,7 +15,7 @@ import ch.epfl.xblast.Lists;
  * @author Lorenz Rasch (249937)
  */
 public final class Board {
-    private List<Sq<Block>> blocks;
+    private final List<Sq<Block>> blocks;
 
     /**
      * Creates a new Board from the list of blocks given.

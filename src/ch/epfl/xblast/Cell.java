@@ -12,17 +12,26 @@ import java.util.List;
 public final class Cell {
 
     /**
-     * constants concerning the 2d grid of Cells
+     * the number of columns in a game board
      */
-    public static int COLUMNS = 15;
-    public static int ROWS = 13;
-    public static int COUNT = COLUMNS * ROWS;
+    public static final int COLUMNS = 15;
+    /**
+     * the number of rows in a game board
+     */
+    public static final int ROWS = 13;
+    /**
+     * the number of cells on a game board
+     */
+    public static final int COUNT = COLUMNS * ROWS;
 
     /**
-     * constant lists containing the grids Cells in row-major and spiral order
+     * constant list containing the grids Cells in row-major order
      */
-    public static List<Cell> ROW_MAJOR_ORDER = rowMajorOrder();
-    public static List<Cell> SPIRAL_ORDER = spiralOrder();
+    public static final List<Cell> ROW_MAJOR_ORDER = rowMajorOrder();
+    /**
+     * constant list containing the grids Cells in spiral order
+     */
+    public static final List<Cell> SPIRAL_ORDER = spiralOrder();
 
     private final int x, y;
 

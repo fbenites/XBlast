@@ -33,8 +33,8 @@ public enum Bonus {
 
     // constants representing the maximum counts of bombs/bomb range for a
     // player
-    private static int MAX_BOMBS = 9;
-    private static int MAX_RANGE = 9;
+    private static final int MAX_BOMBS = 9;
+    private static final int MAX_RANGE = 9;
 
     /**
      * Creates a player with this Bonus applied.

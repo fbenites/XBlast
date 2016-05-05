@@ -13,9 +13,9 @@ public final class SubCell {
      * Constants concerning the grid of SubCells. The "center"-SubCell is the
      * SubCell with coordinates x, y = half the SubCell-Count
      */
-    private static int SUBCELL_COUNT = 16;
-    private static int COLUMNS = Cell.COLUMNS * SUBCELL_COUNT;
-    private static int ROWS = Cell.ROWS * SUBCELL_COUNT;
+    private static final int SUBCELL_COUNT = 16;
+    private static final int COLUMNS = Cell.COLUMNS * SUBCELL_COUNT;
+    private static final int ROWS = Cell.ROWS * SUBCELL_COUNT;
 
     /**
      * Returns the central SubCell of a given cell.
