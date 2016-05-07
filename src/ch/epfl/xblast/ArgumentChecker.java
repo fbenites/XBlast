@@ -19,8 +19,7 @@ public final class ArgumentChecker {
      * @throws IllegalArgumentException
      *             if the given value is smaller than zero
      */
-    public static int requireNonNegative(int value)
-            throws IllegalArgumentException {
+    public static int requireNonNegative(int value) {
         if (value >= 0) {
             return value;
         } else {

@@ -9,6 +9,9 @@ public enum Bonus {
 
     // the Bonus allowing a player to carry an additional Bomb if possible
     INC_BOMB {
+        // maximum amount of bombs
+        private static final int MAX_BOMBS = 9;
+
         @Override
         public Player applyTo(Player player) {
             if (player.maxBombs() < MAX_BOMBS) {
@@ -21,6 +24,9 @@ public enum Bonus {
 
     // the Bonus giving a players bombs additional range if possible
     INC_RANGE {
+        // maximum length of range
+        private static final int MAX_RANGE = 9;
+
         @Override
         public Player applyTo(Player player) {
             if (player.bombRange() < MAX_RANGE) {
@@ -30,11 +36,6 @@ public enum Bonus {
             }
         }
     };
-
-    // constants representing the maximum counts of bombs/bomb range for a
-    // player
-    private static final int MAX_BOMBS = 9;
-    private static final int MAX_RANGE = 9;
 
     /**
      * Creates a player with this Bonus applied.

@@ -49,7 +49,7 @@ public final class SubCell {
      * @return the x component of the SubCells coordinates
      */
     public int x() {
-        return this.x;
+        return x;
     }
 
     /**
@@ -58,7 +58,7 @@ public final class SubCell {
      * @return the y component of the SubCells coordinates
      */
     public int y() {
-        return this.y;
+        return y;
     }
 
     /**
@@ -67,7 +67,7 @@ public final class SubCell {
      * @return
      */
     public int distanceToCentral() {
-        SubCell central = centralSubCellOf(this.containingCell());
+        SubCell central = centralSubCellOf(containingCell());
         return Math.abs(this.x() - central.x())
                 + Math.abs(this.y() - central.y());
     }
@@ -78,7 +78,7 @@ public final class SubCell {
      * @return true if this SubCell is a "center"-SubCell
      */
     public boolean isCentral() {
-        return (this.distanceToCentral() == 0);
+        return (distanceToCentral() == 0);
     }
 
     /**
@@ -91,15 +91,15 @@ public final class SubCell {
     public SubCell neighbor(Direction dir) {
         switch (dir) {
         case N:
-            return new SubCell(this.x(), this.y() - 1);
+            return new SubCell(x(), y() - 1);
         case E:
-            return new SubCell(this.x() + 1, this.y());
+            return new SubCell(x() + 1, y());
         case S:
-            return new SubCell(this.x(), this.y() + 1);
+            return new SubCell(x(), y() + 1);
         case W:
-            return new SubCell(this.x() - 1, this.y());
+            return new SubCell(x() - 1, y());
         default:
-            return new SubCell(this.x(), this.y());
+            return new SubCell(x(), y());
         }
     }
 
@@ -109,7 +109,7 @@ public final class SubCell {
      * @return the Cell containing this SubCell
      */
     public Cell containingCell() {
-        return new Cell(this.x() / SUBCELL_COUNT, this.y() / SUBCELL_COUNT);
+        return new Cell(x() / SUBCELL_COUNT, y() / SUBCELL_COUNT);
     }
 
     @Override
@@ -124,11 +124,11 @@ public final class SubCell {
 
     @Override
     public int hashCode() {
-        return (this.y() * COLUMNS) + this.x();
+        return (y() * COLUMNS) + x();
     }
 
     @Override
     public String toString() {
-        return "(" + this.x() + "," + this.y() + ")";
+        return "(" + x() + "," + y() + ")";
     }
 }

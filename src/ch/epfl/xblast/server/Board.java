@@ -25,7 +25,7 @@ public final class Board {
      * @throws IllegalArgumentException
      *             if the list doesn't contain enough blocks
      */
-    public Board(List<Sq<Block>> blocks) throws IllegalArgumentException {
+    public Board(List<Sq<Block>> blocks) {
         // checks if there are enough blocks in the given list
         if (blocks.size() != Cell.COUNT) {
             throw new IllegalArgumentException(
@@ -45,7 +45,7 @@ public final class Board {
      * @return sequence of blocks at the given point/cell
      */
     public Sq<Block> blocksAt(Cell c) {
-        return this.blocks.get(c.rowMajorIndex());
+        return blocks.get(c.rowMajorIndex());
     }
 
     /**
@@ -56,7 +56,7 @@ public final class Board {
      * @return block at the given point/cell
      */
     public Block blockAt(Cell c) {
-        return this.blocksAt(c).head();
+        return blocksAt(c).head();
     }
 
     /**
@@ -71,8 +71,7 @@ public final class Board {
      * @throws NullPointerException
      *             if the given list is null
      */
-    public static Board ofRows(List<List<Block>> rows)
-            throws IllegalArgumentException, NullPointerException {
+    public static Board ofRows(List<List<Block>> rows) {
         // checking correctness of given list
         checkBlockMatrix(rows, Cell.ROWS, Cell.COLUMNS);
 
@@ -99,8 +98,7 @@ public final class Board {
      * @throws NullPointerException
      *             if the given list is null
      */
-    public static Board ofInnerBlocksWalled(List<List<Block>> innerBlocks)
-            throws IllegalArgumentException, NullPointerException {
+    public static Board ofInnerBlocksWalled(List<List<Block>> innerBlocks) {
         // checking correctness of given list
         checkBlockMatrix(innerBlocks, Cell.ROWS - 2, Cell.COLUMNS - 2);
 
@@ -151,8 +149,7 @@ public final class Board {
      *             if the given list is null
      */
     public static Board ofQuadrantNWBlocksWalled(
-            List<List<Block>> quadrantNWBlocks)
-            throws IllegalArgumentException, NullPointerException {
+            List<List<Block>> quadrantNWBlocks) {
         // checking correctness of given list
         checkBlockMatrix(quadrantNWBlocks, (Cell.ROWS / 2), (Cell.COLUMNS / 2));
 
@@ -186,7 +183,7 @@ public final class Board {
      *             if the given list is null
      */
     private static void checkBlockMatrix(List<List<Block>> matrix, int rows,
-            int columns) throws IllegalArgumentException, NullPointerException {
+            int columns) {
         // check number of rows
         if (Objects.requireNonNull(matrix).size() != rows) {
             throw new IllegalArgumentException(

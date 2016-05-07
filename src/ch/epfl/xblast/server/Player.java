@@ -39,18 +39,16 @@ public final class Player {
      * @throws NullPointerException
      *             if any of the first 3 parameters is null
      */
-    public Player(PlayerID id, Sq<LifeState> lifeStates,
-            Sq<DirectedPosition> directedPos, int maxBombs, int bombRange)
-            throws IllegalArgumentException, NullPointerException {
-        this.id = Objects.requireNonNull(id, "Given PlayerID is null.");
-        this.ls = Objects
-                .requireNonNull(lifeStates, "Given LifeState is null.");
-        this.dPos = Objects.requireNonNull(directedPos,
+    public Player(PlayerID playerID, Sq<LifeState> lifeStates,
+            Sq<DirectedPosition> directedPos, int maxBombs, int bombRange) {
+        id = Objects.requireNonNull(playerID, "Given PlayerID is null.");
+        ls = Objects.requireNonNull(lifeStates, "Given LifeState is null.");
+        dPos = Objects.requireNonNull(directedPos,
                 "Given DirectedPosition is null.");
         // XXX if maxBombs/bombRange is over 9 leave it as it is, the player
         // will not receive any bonuses
-        this.maxB = ArgumentChecker.requireNonNegative(maxBombs);
-        this.bRange = ArgumentChecker.requireNonNegative(bombRange);
+        maxB = ArgumentChecker.requireNonNegative(maxBombs);
+        bRange = ArgumentChecker.requireNonNegative(bombRange);
     }
 
     /**
@@ -74,8 +72,7 @@ public final class Player {
      *             if the player id or the position is null
      */
     public Player(PlayerID id, int lives, Cell position, int maxBombs,
-            int bombRange) throws IllegalArgumentException,
-            NullPointerException {
+            int bombRange) {
         this(id, Player.createLifeStates(lives), Sq
                 .constant(new DirectedPosition(SubCell.centralSubCellOf(Objects
                         .requireNonNull(position)), Direction.S)), maxBombs,
@@ -106,7 +103,7 @@ public final class Player {
      * @return the LifeState
      */
     public LifeState lifeState() {
-        return this.lifeStates().head();
+        return lifeStates().head();
     }
 
     /**
@@ -118,8 +115,8 @@ public final class Player {
     public Sq<LifeState> statesForNextLife() {
         // Player is dying, then states with one life less are added
         return Sq.repeat(Ticks.PLAYER_DYING_TICKS,
-                new LifeState(this.lives(), LifeState.State.DYING)).concat(
-                Player.createLifeStates(this.lives() - 1));
+                new LifeState(lives(), LifeState.State.DYING)).concat(
+                Player.createLifeStates(lives() - 1));
     }
 
     /**
@@ -128,7 +125,7 @@ public final class Player {
      * @return the number of lives
      */
     public int lives() {
-        return this.lifeState().lives();
+        return lifeState().lives();
     }
 
     /**
@@ -137,7 +134,7 @@ public final class Player {
      * @return true, if this Player is alive/if the Player has any lives left
      */
     public boolean isAlive() {
-        return (this.lives() > 0);
+        return (lives() > 0);
     }
 
     /**
@@ -146,7 +143,7 @@ public final class Player {
      * @return the directed position
      */
     public Sq<DirectedPosition> directedPositions() {
-        return this.dPos;
+        return dPos;
     }
 
     /**
@@ -155,7 +152,7 @@ public final class Player {
      * @return the position
      */
     public SubCell position() {
-        return this.directedPositions().head().position();
+        return directedPositions().head().position();
     }
 
     /**
@@ -164,7 +161,7 @@ public final class Player {
      * @return the Players direction
      */
     public Direction direction() {
-        return this.directedPositions().head().direction();
+        return directedPositions().head().direction();
     }
 
     /**
@@ -173,7 +170,7 @@ public final class Player {
      * @return the amount of bombs
      */
     public int maxBombs() {
-        return this.maxB;
+        return maxB;
     }
 
     /**
@@ -185,8 +182,9 @@ public final class Player {
      * @throws IllegalArgumentException
      *             if the new amount of bombs is negative
      */
-    public Player withMaxBombs(int newMaxBombs) throws IllegalArgumentException {
-        return new Player(this.id, this.ls, this.dPos, newMaxBombs, this.bRange);
+    public Player withMaxBombs(int newMaxBombs) {
+        return new Player(id(), lifeStates(), directedPositions(), newMaxBombs,
+                bombRange());
     }
 
     /**
@@ -195,7 +193,7 @@ public final class Player {
      * @return the bombs explosion particle range
      */
     public int bombRange() {
-        return this.bRange;
+        return bRange;
     }
 
     /**
@@ -207,9 +205,9 @@ public final class Player {
      * @throws IllegalArgumentException
      *             if the new bomb range is negative
      */
-    public Player withBombRange(int newBombRange)
-            throws IllegalArgumentException {
-        return new Player(this.id, this.ls, this.dPos, this.maxB, newBombRange);
+    public Player withBombRange(int newBombRange) {
+        return new Player(id(), lifeStates(), directedPositions(), maxBombs(),
+                newBombRange);
     }
 
     /**
@@ -218,8 +216,8 @@ public final class Player {
      * @return a bomb at this Players position and with this Players bomb range
      */
     public Bomb newBomb() {
-        return new Bomb(this.id, this.position().containingCell(),
-                Ticks.BOMB_FUSE_TICKS, this.bRange);
+        return new Bomb(id(), position().containingCell(),
+                Ticks.BOMB_FUSE_TICKS, bombRange());
     }
 
     /**
@@ -233,11 +231,15 @@ public final class Player {
      * @throws IllegalArgumentException
      *             if the number of lives is negative
      */
-    private static Sq<LifeState> createLifeStates(int lives)
-            throws IllegalArgumentException {
-        return Sq.repeat(Ticks.PLAYER_INVULNERABLE_TICKS,
-                new LifeState(lives, LifeState.State.INVULNERABLE)).concat(
-                Sq.constant(new LifeState(lives, LifeState.State.VULNERABLE)));
+    private static Sq<LifeState> createLifeStates(int lives) {
+        if (lives <= 0) {
+            return Sq.constant(new LifeState(lives, LifeState.State.DEAD));
+        } else {
+            return Sq.repeat(Ticks.PLAYER_INVULNERABLE_TICKS,
+                    new LifeState(lives, LifeState.State.INVULNERABLE))
+                    .concat(Sq.constant(new LifeState(lives,
+                            LifeState.State.VULNERABLE)));
+        }
     }
 
     /**
@@ -247,8 +249,8 @@ public final class Player {
      */
     public final static class LifeState {
 
-        private final int lives;
-        private final State state;
+        private final int l;
+        private final State s;
 
         /**
          * Creates a new LifeState with the number of lives and the state given.
@@ -263,16 +265,9 @@ public final class Player {
          * @throws NullPointerException
          *             if the state is null
          */
-        public LifeState(int lives, State state)
-                throws IllegalArgumentException, NullPointerException {
-            this.lives = ArgumentChecker.requireNonNegative(lives);
-            // the player has no lives left, his state is death
-            if (lives == 0) {
-                this.state = State.DEAD;
-            } else {
-                this.state = Objects.requireNonNull(state,
-                        "Given State is null.");
-            }
+        public LifeState(int lives, State state) {
+            l = ArgumentChecker.requireNonNegative(lives);
+            s = Objects.requireNonNull(state, "Given State is null.");
         }
 
         /**
@@ -281,7 +276,7 @@ public final class Player {
          * @return the number of lives
          */
         public int lives() {
-            return this.lives;
+            return l;
         }
 
         /**
@@ -290,7 +285,7 @@ public final class Player {
          * @return the state
          */
         public State state() {
-            return this.state;
+            return s;
         }
 
         /**
@@ -299,8 +294,8 @@ public final class Player {
          * @return true, if the state is VULNERABLE or INVULNERABLE
          */
         public boolean canMove() {
-            return (this.state() == State.VULNERABLE)
-                    || (this.state() == State.INVULNERABLE);
+            return (state() == State.VULNERABLE)
+                    || (state() == State.INVULNERABLE);
         }
 
         /**
@@ -335,12 +330,9 @@ public final class Player {
          * @throws NullPointerException
          *             if any of the parameters is null
          */
-        public DirectedPosition(SubCell position, Direction direction)
-                throws NullPointerException {
-            this.pos = Objects.requireNonNull(position,
-                    "Given position is null.");
-            this.d = Objects.requireNonNull(direction,
-                    "Given direction is null.");
+        public DirectedPosition(SubCell position, Direction direction) {
+            pos = Objects.requireNonNull(position, "Given position is null.");
+            d = Objects.requireNonNull(direction, "Given direction is null.");
         }
 
         /**
@@ -386,7 +378,7 @@ public final class Player {
          * @return DirectedPosition with the new position
          */
         public DirectedPosition withPosition(SubCell newPosition) {
-            return new DirectedPosition(newPosition, this.direction());
+            return new DirectedPosition(newPosition, direction());
         }
 
         /**
@@ -406,7 +398,7 @@ public final class Player {
          * @return DirectedPosition with the new direction
          */
         public DirectedPosition withDirection(Direction newDirection) {
-            return new DirectedPosition(this.position(), newDirection);
+            return new DirectedPosition(position(), newDirection);
         }
     }
 

@@ -40,15 +40,15 @@ public final class Bomb {
      *             if the fuse sequence is empty or the range is negative
      */
     public Bomb(PlayerID ownerId, Cell position, Sq<Integer> fuseLengths,
-            int range) throws NullPointerException, IllegalArgumentException {
-        this.owner = Objects.requireNonNull(ownerId, "Given PlayerID is null.");
-        this.pos = Objects.requireNonNull(position, "Given position is null.");
+            int range) {
+        owner = Objects.requireNonNull(ownerId, "Given PlayerID is null.");
+        pos = Objects.requireNonNull(position, "Given position is null.");
         if (Objects.requireNonNull(fuseLengths, "Given fuse length is null.")
                 .isEmpty()) {
             throw new IllegalArgumentException(
                     "The given fuse sequence is empty.");
         } else {
-            this.fuse = fuseLengths;
+            fuse = fuseLengths;
         }
         this.range = ArgumentChecker.requireNonNegative(range);
     }
@@ -69,8 +69,7 @@ public final class Bomb {
      * @throws IllegalArgumentException
      *             if the fuse length or the range is negative
      */
-    public Bomb(PlayerID ownerId, Cell position, int fuseLength, int range)
-            throws NullPointerException, IllegalArgumentException {
+    public Bomb(PlayerID ownerId, Cell position, int fuseLength, int range) {
         this(ownerId, position, Sq.iterate(
                 ArgumentChecker.requireNonNegative(fuseLength), u -> u - 1)
                 .limit(fuseLength), range);
@@ -82,7 +81,7 @@ public final class Bomb {
      * @return the owners PlayerID
      */
     public PlayerID ownerId() {
-        return this.owner;
+        return owner;
     }
 
     /**
@@ -91,7 +90,7 @@ public final class Bomb {
      * @return this bombs position
      */
     public Cell position() {
-        return this.pos;
+        return pos;
     }
 
     /**
@@ -100,7 +99,7 @@ public final class Bomb {
      * @return this bombs fuse sequence
      */
     public Sq<Integer> fuseLengths() {
-        return this.fuse;
+        return fuse;
     }
 
     /**
@@ -109,7 +108,7 @@ public final class Bomb {
      * @return this bombs fuse length
      */
     public int fuseLength() {
-        return this.fuseLengths().head();
+        return fuseLengths().head();
     }
 
     /**
@@ -118,7 +117,7 @@ public final class Bomb {
      * @return this bombs range
      */
     public int range() {
-        return this.range;
+        return range;
     }
 
     /**
@@ -130,7 +129,7 @@ public final class Bomb {
         List<Sq<Sq<Cell>>> l = new ArrayList<Sq<Sq<Cell>>>();
         // create an "explosion-arm" for all 4 directions
         for (Direction d : Direction.values()) {
-            l.add(this.explosionArmTowards(d));
+            l.add(explosionArmTowards(d));
         }
         return Collections.unmodifiableList(l);
     }
@@ -145,9 +144,7 @@ public final class Bomb {
     private Sq<Sq<Cell>> explosionArmTowards(Direction dir) {
         // for every tick the explosion is active, create a sequence of
         // particles as long as the range of the bomb
-        return Sq.repeat(
-                Ticks.EXPLOSION_TICKS,
-                Sq.iterate(this.position(), u -> u.neighbor(dir)).limit(
-                        this.range()));
+        return Sq.repeat(Ticks.EXPLOSION_TICKS,
+                Sq.iterate(position(), u -> u.neighbor(dir)).limit(range()));
     }
 }

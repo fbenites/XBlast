@@ -21,14 +21,14 @@ public enum Block {
      *            the provided bonus
      */
     private Block(Bonus b) {
-        this.bonus = b;
+        bonus = b;
     }
 
     /**
      * Creates a new Block without any bonus.
      */
     private Block() {
-        this.bonus = null;
+        bonus = null;
     }
 
     /**
@@ -46,7 +46,7 @@ public enum Block {
      * @return true, if this block is FREE or a bonus.
      */
     public boolean canHostPlayer() {
-        return this.isFree() || this.isBonus();
+        return isFree() || isBonus();
     }
 
     /**
@@ -75,13 +75,13 @@ public enum Block {
      * @throws NoSuchElementException
      *             if there is no Bonus associated with this Block
      */
-    public Bonus associatedBonus() throws NoSuchElementException {
+    public Bonus associatedBonus() {
         if (!this.isBonus()) {
             throw new NoSuchElementException(
                     "There is no Bonus associated with Block: "
                             + this.toString());
         } else {
-            return this.bonus;
+            return bonus;
         }
     }
 }

@@ -20,7 +20,6 @@ import ch.epfl.xblast.Lists;
 import ch.epfl.xblast.PlayerID;
 import ch.epfl.xblast.SubCell;
 import ch.epfl.xblast.server.Player.DirectedPosition;
-import ch.epfl.xblast.server.Player.LifeState;
 
 /**
  * Class representing the state of the game XBlast at a given time/tick.
@@ -38,6 +37,8 @@ public final class GameState {
     private static final List<List<PlayerID>> PERMUTATIONS = Lists
             .permutations(Arrays.asList(PlayerID.values()));
     private static final Random RANDOM = new Random(2016);
+    private static final Block[] BONUS = new Block[] { Block.BONUS_BOMB,
+            Block.BONUS_RANGE, Block.FREE };
 
     /**
      * Creates the GameState for a given time/tick according to the parameters
@@ -63,8 +64,7 @@ public final class GameState {
      */
     public GameState(int ticks, Board board, List<Player> players,
             List<Bomb> bombs, List<Sq<Sq<Cell>>> explosions,
-            List<Sq<Cell>> blasts) throws IllegalArgumentException,
-            NullPointerException {
+            List<Sq<Cell>> blasts) {
         this.ticks = ArgumentChecker.requireNonNegative(ticks);
         this.board = Objects.requireNonNull(board, "Given board is null.");
         this.players = Collections.unmodifiableList(new ArrayList<Player>(
@@ -77,8 +77,9 @@ public final class GameState {
                                 "Given explosions list is null.")));
         this.blasts = Collections.unmodifiableList(new ArrayList<Sq<Cell>>(
                 Objects.requireNonNull(blasts, "Given blasts list is null.")));
-        if (this.players.size() != 4) {
-            throw new IllegalArgumentException("Game must have 4 players. ("
+        if (this.players.size() != PlayerID.values().length) {
+            throw new IllegalArgumentException("Game must have "
+                    + PlayerID.values().length + " players. ("
                     + this.players.size() + ")");
         }
     }
@@ -96,8 +97,7 @@ public final class GameState {
      * @throws NullPointerException
      *             if any of the two parameters is null
      */
-    public GameState(Board board, List<Player> players)
-            throws IllegalArgumentException, NullPointerException {
+    public GameState(Board board, List<Player> players) {
         this(0, board, players, new ArrayList<Bomb>(),
                 new ArrayList<Sq<Sq<Cell>>>(), new ArrayList<Sq<Cell>>());
     }
@@ -108,7 +108,7 @@ public final class GameState {
      * @return the current tick
      */
     public int ticks() {
-        return this.ticks;
+        return ticks;
     }
 
     /**
@@ -118,8 +118,7 @@ public final class GameState {
      *         players are alive
      */
     public boolean isGameOver() {
-        return this.ticks > Ticks.TOTAL_TICKS
-                || this.alivePlayers().size() <= 1;
+        return ticks > Ticks.TOTAL_TICKS || alivePlayers().size() <= 1;
     }
 
     /**
@@ -128,8 +127,7 @@ public final class GameState {
      * @return the remaining time
      */
     public double remainingTime() {
-        return ((double) Ticks.TOTAL_TICKS - this.ticks())
-                / Ticks.TICKS_PER_SECOND;
+        return ((double) Ticks.TOTAL_TICKS - ticks()) / Ticks.TICKS_PER_SECOND;
     }
 
     /**
@@ -139,8 +137,8 @@ public final class GameState {
      * @return the player id of the winner, or an empty Optional
      */
     public Optional<PlayerID> winner() {
-        if (this.isGameOver() && (this.alivePlayers().size() == 1)) {
-            return Optional.of(this.alivePlayers().get(0).id());
+        if (this.isGameOver() && (alivePlayers().size() == 1)) {
+            return Optional.of(alivePlayers().get(0).id());
         } else {
             return Optional.empty();
         }
@@ -152,7 +150,7 @@ public final class GameState {
      * @return the current board
      */
     public Board board() {
-        return this.board;
+        return board;
     }
 
     /**
@@ -161,7 +159,7 @@ public final class GameState {
      * @return the players
      */
     public List<Player> players() {
-        return this.players;
+        return players;
     }
 
     /**
@@ -171,7 +169,7 @@ public final class GameState {
      */
     public List<Player> alivePlayers() {
         List<Player> list = new ArrayList<Player>();
-        for (Player p : this.players()) {
+        for (Player p : players()) {
             if (p.isAlive()) {
                 list.add(p);
             }
@@ -185,7 +183,7 @@ public final class GameState {
      * @return map of Cell/Bomb pairs
      */
     public Map<Cell, Bomb> bombedCells() {
-        return GameState.bombedCells(this.bombs);
+        return GameState.bombedCells(bombs);
     }
 
     /**
@@ -194,7 +192,7 @@ public final class GameState {
      * @return a Set of Cells with explosion particles
      */
     public Set<Cell> blastedCells() {
-        return GameState.blastedCells(this.blasts);
+        return GameState.blastedCells(blasts);
     }
 
     /**
@@ -211,16 +209,15 @@ public final class GameState {
     public GameState next(Map<PlayerID, Optional<Direction>> speedChangeEvents,
             Set<PlayerID> bombDropEvents) {
         /* 1 explosion particles */
-        List<Sq<Cell>> blasts1 = GameState.nextBlasts(this.blasts,
-                this.board(), this.explosions);
+        List<Sq<Cell>> blasts1 = GameState.nextBlasts(blasts, board(),
+                explosions);
 
         /* 2 board */
         Set<Cell> consumedBonuses = new HashSet<Cell>();
         Map<PlayerID, Bonus> playerBonuses = new HashMap<PlayerID, Bonus>();
-        List<Player> players0 = new ArrayList<Player>(this.players());
+        List<Player> players0 = new ArrayList<Player>(players());
         // sort players according to active permutation
-        List<PlayerID> perm = PERMUTATIONS.get(this.ticks()
-                % PERMUTATIONS.size());
+        List<PlayerID> perm = PERMUTATIONS.get(ticks() % PERMUTATIONS.size());
         Collections.sort(
                 players0,
                 (x, y) -> Integer.compare(perm.indexOf(x.id()),
@@ -228,13 +225,12 @@ public final class GameState {
         // if a player is in the center of a "bonus-cell" the bonus is consumed
         for (Player p : players0) {
             if (p.position().isCentral()
-                    && this.board().blockAt(p.position().containingCell())
-                            .isBonus()) {
+                    && board().blockAt(p.position().containingCell()).isBonus()) {
                 // adds player/bonus pair to map if the bonus position isn't in
                 // the set yet to make sure only one player gets bonus
                 if (consumedBonuses.add(p.position().containingCell())) {
                     playerBonuses.put(p.id(),
-                            this.board().blockAt(p.position().containingCell())
+                            board().blockAt(p.position().containingCell())
                                     .associatedBonus());
                 }
             }
@@ -242,32 +238,19 @@ public final class GameState {
         // get cells with at least one explosion particle on it
         Set<Cell> blastedCells1 = GameState.blastedCells(blasts1);
         // calculate board from active board, consumed bonuses and blastedCells
-        Board board1 = GameState.nextBoard(this.board(), consumedBonuses,
+        Board board1 = GameState.nextBoard(board(), consumedBonuses,
                 blastedCells1);
 
         /* 3 explosions */
-        List<Sq<Sq<Cell>>> explosions1 = GameState
-                .nextExplosions(this.explosions);
+        List<Sq<Sq<Cell>>> explosions1 = GameState.nextExplosions(explosions);
 
         /* 4 bombs */
+        List<Bomb> bombs0 = new ArrayList<Bomb>(bombs);
+        bombs0.addAll(GameState.newlyDroppedBombs(players0, bombDropEvents,
+                bombs));
         List<Bomb> bombs1 = new ArrayList<Bomb>();
         // check active bombs
-        for (Bomb b : this.bombs) {
-            if (blastedCells1.contains(b.position())) {
-                // bombs on blasts explode immediately
-                explosions1.addAll(b.explosion());
-            } else if (b.fuseLengths().tail().isEmpty()) {
-                // bombs whose fuse has expired explode
-                explosions1.addAll(b.explosion());
-            } else {
-                // all other bombs fuses decrease by 1
-                bombs1.add(new Bomb(b.ownerId(), b.position(), b.fuseLengths()
-                        .tail(), b.range()));
-            }
-        }
-        // check bombs newly dropped
-        for (Bomb b : GameState.newlyDroppedBombs(players0, bombDropEvents,
-                this.bombs)) {
+        for (Bomb b : bombs0) {
             if (blastedCells1.contains(b.position())) {
                 // bombs on blasts explode immediately
                 explosions1.addAll(b.explosion());
@@ -283,11 +266,11 @@ public final class GameState {
 
         /* 5 players */
         Map<Cell, Bomb> bombedCells1 = GameState.bombedCells(bombs1);
-        List<Player> players1 = GameState.nextPlayers(this.players(),
-                playerBonuses, bombedCells1.keySet(), board1, blastedCells1,
-                speedChangeEvents);
+        List<Player> players1 = GameState
+                .nextPlayers(players(), playerBonuses, bombedCells1.keySet(),
+                        board1, blastedCells1, speedChangeEvents);
 
-        return new GameState(this.ticks() + 1, board1, players1, bombs1,
+        return new GameState(ticks() + 1, board1, players1, bombs1,
                 explosions1, blasts1);
     }
 
@@ -380,37 +363,14 @@ public final class GameState {
                 // convert blasted destructible walls into Bonuses or a free
                 // space. chance 1/3.
                 if (board0.blockAt(c) == Block.DESTRUCTIBLE_WALL) {
-                    switch (RANDOM.nextInt(3)) {
-                    case 0:
-                        board1.add(Sq.repeat(Ticks.WALL_CRUMBLING_TICKS,
-                                Block.CRUMBLING_WALL).concat(
-                                Sq.constant(Block.BONUS_BOMB)));
-                        break;
-                    case 1:
-                        board1.add(Sq.repeat(Ticks.WALL_CRUMBLING_TICKS,
-                                Block.CRUMBLING_WALL).concat(
-                                Sq.constant(Block.BONUS_RANGE)));
-                        break;
-                    case 2:
-                        board1.add(Sq.repeat(Ticks.WALL_CRUMBLING_TICKS,
-                                Block.CRUMBLING_WALL).concat(
-                                Sq.constant(Block.FREE)));
-                        break;
-                    }
-                    // make blasted bonuses disappear after a short time
+                    board1.add(Sq.repeat(Ticks.WALL_CRUMBLING_TICKS,
+                            Block.CRUMBLING_WALL).concat(
+                            Sq.constant(BONUS[RANDOM.nextInt(BONUS.length)])));
                 } else if (board0.blockAt(c).isBonus()) {
-                    if (!board0.blocksAt(c)
+                    // make blasted bonuses disappear after a short time
+                    board1.add(board0.blocksAt(c)
                             .limit(Ticks.BONUS_DISAPPEARING_TICKS)
-                            .dropWhile(b -> b.isBonus()).isEmpty()) {
-                        // leave block as it is if it already will disappear
-                        board1.add(board0.blocksAt(c).tail());
-                    } else {
-                        // add disappearing time to block before making it a
-                        // free block
-                        board1.add(Sq.repeat(Ticks.BONUS_DISAPPEARING_TICKS,
-                                board0.blockAt(c)).concat(
-                                Sq.constant(Block.FREE)));
-                    }
+                            .concat(Sq.constant(Block.FREE)));
                 } else {
                     // leave block as it is, blast will have no effect (on
                     // IndestructibleWall/CrumblingWall/Free)
@@ -486,7 +446,7 @@ public final class GameState {
             }
             /* 2 directed position, blocked or not */
             // no movement if player is dying or dead
-            if (p.isAlive() && p.lifeState().state() != LifeState.State.DYING) {
+            if (p.lifeState().canMove()) {
                 Cell nextCell = dp1.head().position().containingCell()
                         .neighbor(dp1.head().direction());
                 // no movement only if, next cell is blocked AND player is on
@@ -510,15 +470,11 @@ public final class GameState {
                                 .distanceToCentral())
                                 || thisSubCell.distanceToCentral() != 6) {
                             dp1 = dp1.tail();
-                        } else {
-                            // no movement
                         }
                     } else {
                         // no bomb on this cell, normal movement
                         dp1 = dp1.tail();
                     }
-                } else {
-                    // no movement
                 }
             }
 
@@ -585,7 +541,11 @@ public final class GameState {
             if (bombDropEvents.contains(p.id()) && p.isAlive()) {
                 int counter = 0;
                 boolean spotTaken = false;
-                for (Bomb b : bombs0) {
+                List<Bomb> bombs = new ArrayList<Bomb>(bombs0);
+                // add bombs dropped by players during same tick, prevent double
+                // dropping of bombs
+                bombs.addAll(bombs1);
+                for (Bomb b : bombs) {
                     // count bombs dropped by this player
                     counter = b.ownerId() == p.id() ? counter + 1 : counter;
                     // check if players position is already taken by a bomb

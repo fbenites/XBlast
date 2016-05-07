@@ -55,7 +55,7 @@ public final class Cell {
      * @return the x component of the Cells coordinates
      */
     public int x() {
-        return this.x;
+        return x;
     }
 
     /**
@@ -64,7 +64,7 @@ public final class Cell {
      * @return the y component of the Cells coordinates
      */
     public int y() {
-        return this.y;
+        return y;
     }
 
     /**
@@ -86,15 +86,15 @@ public final class Cell {
     public Cell neighbor(Direction dir) {
         switch (dir) {
         case N:
-            return new Cell(this.x(), this.y() - 1);
+            return new Cell(x(), y() - 1);
         case E:
-            return new Cell(this.x() + 1, this.y());
+            return new Cell(x() + 1, y());
         case S:
-            return new Cell(this.x(), this.y() + 1);
+            return new Cell(x(), y() + 1);
         case W:
-            return new Cell(this.x() - 1, this.y());
+            return new Cell(x() - 1, y());
         default:
-            return new Cell(this.x(), this.y());
+            return new Cell(x(), y());
         }
     }
 
@@ -110,12 +110,12 @@ public final class Cell {
 
     @Override
     public int hashCode() {
-        return this.rowMajorIndex();
+        return rowMajorIndex();
     }
 
     @Override
     public String toString() {
-        return "(" + this.x() + "," + this.y() + ")";
+        return "(" + x() + "," + y() + ")";
     }
 
     /**

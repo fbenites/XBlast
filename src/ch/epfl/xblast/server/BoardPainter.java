@@ -31,8 +31,7 @@ public final class BoardPainter {
      * @throws IllegalArgumentException
      *             if the provided palete/mapping is empty
      */
-    public BoardPainter(Map<Block, BlockImage> palete, BlockImage shadedBlock)
-            throws NullPointerException, IllegalArgumentException {
+    public BoardPainter(Map<Block, BlockImage> palete, BlockImage shadedBlock) {
         if (Objects.requireNonNull(palete).isEmpty()) {
             throw new IllegalArgumentException("Provided palete is empty.");
         } else {
