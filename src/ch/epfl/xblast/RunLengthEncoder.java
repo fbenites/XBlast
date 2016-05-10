@@ -5,10 +5,10 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * TODO
+ * Class representing a encoder/decoder by run length encoding for Byte. Code:
+ * Number of repetitions(negative) - Object/Byte(positive).
  * 
  * @author Lorenz Rasch (249937)
- *
  */
 public final class RunLengthEncoder {
 
@@ -16,14 +16,17 @@ public final class RunLengthEncoder {
     }
 
     /**
-     * TODO
+     * Endcodes a list of bytes by run length encoding. First is the number of
+     * repetitions(negative), then the byte(positive). Object only once/twice
+     * for short repetitions. Up to 130 repetitions.
      * 
      * @param message
-     * @return
+     *            the list of bytes to encode
+     * @return life of bytes representing the code
      * @throws IllegalArgumentException
+     *             if a negative entry in the argument list is encountered
      */
-    public static List<Byte> encode(List<Byte> message)
-            throws IllegalArgumentException {
+    public static List<Byte> encode(List<Byte> message) {
         List<Byte> code = new ArrayList<Byte>();
         // work on list if not empty
         if (!message.isEmpty()) {
@@ -91,24 +94,31 @@ public final class RunLengthEncoder {
     }
 
     /**
-     * TODO
+     * Decodes a list of bytes from run length encoding. First is the number of
+     * repetitions(negative) then the byte(positive). Object only once/twice for
+     * short repetitions. Up to 130 repetitions.
      * 
      * @param code
-     * @return
+     *            the message to decode
+     * @return list of bytes representing the original message
      * @throws IllegalArgumentException
+     *             if the last entry in the list is negative
      */
-    public static List<Byte> decode(List<Byte> code)
-            throws IllegalArgumentException {
+    public static List<Byte> decode(List<Byte> code) {
+        // check last element
         if (code.get(code.size() - 1) < 0) {
             throw new IllegalArgumentException(
                     "Last entry of list is negative.");
         }
+        // go through list
         List<Byte> full = new ArrayList<Byte>();
         int count = 1;
         for (Byte b : code) {
             if (b < 0) {
+                // negative number is a counter
                 count = -b + 2;
             } else {
+                // positive number is added to the message
                 full.addAll(Collections.nCopies(count, b));
                 count = 1;
             }

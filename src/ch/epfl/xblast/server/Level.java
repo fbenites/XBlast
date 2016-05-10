@@ -11,10 +11,10 @@ import ch.epfl.xblast.Cell;
 import ch.epfl.xblast.PlayerID;
 
 /**
- * TODO
+ * Class grouping a Boardpainter and a Gamestate. Would allow to introduce
+ * additional images for the board.
  * 
  * @author Lorenz Rasch (249937)
- *
  */
 public final class Level {
 
@@ -22,45 +22,51 @@ public final class Level {
     private final GameState gs;
 
     /**
-     * TODO
+     * Constant for the start of the game. Board layout as provided, players in
+     * corners (clockwise, Player 1 top left) with 3 lives, carrying 2 bombs
+     * with range 3. BoardPainter with provided images.
      */
     public static final Level DEFAULT_LEVEL = getDefaultLevel();
 
     /**
-     * TODO
+     * Creates a new Level with the Boardpainter and Gamestate given.
      * 
      * @param painter
+     *            the painter/images
      * @param state
+     *            the current gamestate
      * @throws NullPointerException
+     *             if any of the provided arguments is null
      */
-    public Level(BoardPainter painter, GameState state)
-            throws NullPointerException {
+    public Level(BoardPainter painter, GameState state) {
         bp = Objects.requireNonNull(painter);
         gs = Objects.requireNonNull(state);
     }
 
     /**
-     * TODO
+     * Gives the Boardpainter of this Level.
      * 
-     * @return the bp
+     * @return the Boardpainter
      */
-    public BoardPainter getBoardPainter() {
+    public BoardPainter boardPainter() {
         return bp;
     }
 
     /**
-     * TODO
+     * Gives the current Gamestate.
      * 
      * @return the gs
      */
-    public GameState getGameState() {
+    public GameState gameState() {
         return gs;
     }
 
     /**
-     * TODO
+     * Gives the default Level. Board layout as provided, players in corners
+     * (clockwise, Player 1 top left) with 3 lives, carrying 2 bombs with range
+     * 3. BoardPainter with provided images.
      * 
-     * @return
+     * @return the default Level
      */
     private static Level getDefaultLevel() {
         // build palate
