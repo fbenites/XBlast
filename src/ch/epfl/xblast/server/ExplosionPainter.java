@@ -12,12 +12,6 @@ public final class ExplosionPainter {
     private static final byte BLACK_BOMB = 20;
     private static final byte WHITE_BOMB = 21;
 
-    // constants for blasts
-    private static final byte N = 0b1000;
-    private static final byte E = 0b0100;
-    private static final byte S = 0b0010;
-    private static final byte W = 0b0001;
-
     /**
      * Constant for "no" blast/cell without blast
      */
@@ -46,29 +40,18 @@ public final class ExplosionPainter {
      * Gives the byte representation of a blast particle. Parameters signal
      * another blast on the adjacent cell.
      * 
-     * @param n
-     *            for a blast on the northern neighbor
-     * @param e
-     *            for a blast on the eastern neighbor
-     * @param s
-     *            for a blast on the southern neighbor
-     * @param w
-     *            for a blast on the western neighbor
+     * @param nesw
+     *            boolean specifying if there is another blast on any of the
+     *            neighboring cells
      * @return the byte number representing the blast
      */
-    public static byte byteForBlast(boolean n, boolean e, boolean s, boolean w) {
-        byte b = 0b0000;
-        if (n) {
-            b += N;
-        }
-        if (e) {
-            b += E;
-        }
-        if (s) {
-            b += S;
-        }
-        if (w) {
-            b += W;
+    public static byte byteForBlast(boolean[] nesw) {
+        byte b = 0;
+        for (boolean x : nesw) {
+            b = (byte) (b << 1);
+            if (x) {
+                b += 1;
+            }
         }
         return b;
     }

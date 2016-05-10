@@ -26,37 +26,37 @@ public class ExplosionPainterTest {
         assertEquals(21, ExplosionPainter.byteForBomb(b));
     }
 
-    @Test
-    public void byteForBlastTest() {
-        boolean no = false, ea = false, so = false, we = false;
-        byte counter = 0;
-        for (int n = 0; n < 2; n++) {
-            if (n == 1)
-                no = true;
-            else
-                no = false;
-            for (int e = 0; e < 2; e++) {
-                if (e == 1)
-                    ea = true;
-                else
-                    ea = false;
-                for (int s = 0; s < 2; s++) {
-                    if (s == 1)
-                        so = true;
-                    else
-                        so = false;
-                    for (int w = 0; w < 2; w++) {
-                        if (w == 1)
-                            we = true;
-                        else
-                            we = false;
-                        assertEquals(counter,
-                                ExplosionPainter.byteForBlast(no, ea, so, we));
-                        counter++;
-                    }
-                }
-            }
-        }
-    }
+  @Test
+  public void byteForBlastTest() {
+      boolean no = false, ea = false, so = false, we = false;
+      byte counter = 0;
+      for (int n = 0; n < 2; n++) {
+          if (n == 1)
+              no = true;
+          else
+              no = false;
+          for (int e = 0; e < 2; e++) {
+              if (e == 1)
+                  ea = true;
+              else
+                  ea = false;
+              for (int s = 0; s < 2; s++) {
+                  if (s == 1)
+                      so = true;
+                  else
+                      so = false;
+                  for (int w = 0; w < 2; w++) {
+                      if (w == 1)
+                          we = true;
+                      else
+                          we = false;
+                      assertEquals(counter,
+                              ExplosionPainter.byteForBlast(new boolean[]{no,ea,so,we}));
+                      counter++;
+                  }
+              }
+          }
+      }
+  }
 
 }
