@@ -86,10 +86,11 @@ public final class RunLengthEncoder {
             default:
                 // more than 1 repetition, add number of repetitions and the
                 // byte
-                code.add((byte) ((counter - 2) * -1));
+                code.add((byte) ((counter - 1) * -1));
                 code.add(last);
             }
         }
+        code.add(0, (byte)code.size());
         return code;
     }
 
