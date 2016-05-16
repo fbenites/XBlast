@@ -15,7 +15,7 @@ import ch.epfl.xblast.SubCell;
  * @author Lorenz Rasch (249937)
  */
 public final class Player {
-
+    
     private final PlayerID id;
     private final Sq<LifeState> ls;
     private final Sq<DirectedPosition> dPos;

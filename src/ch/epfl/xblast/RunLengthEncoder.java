@@ -18,7 +18,8 @@ public final class RunLengthEncoder {
     /**
      * Endcodes a list of bytes by run length encoding. First is the number of
      * repetitions(negative), then the byte(positive). Object only once/twice
-     * for short repetitions. Up to 130 repetitions.
+     * for short repetitions. Up to 130 repetitions. Adds length of code in
+     * bytes at the start of the code.
      * 
      * @param message
      *            the list of bytes to encode
@@ -90,14 +91,15 @@ public final class RunLengthEncoder {
                 code.add(last);
             }
         }
-        code.add(0, (byte)code.size());
+        code.add(0, (byte) code.size());
         return code;
     }
 
     /**
      * Decodes a list of bytes from run length encoding. First is the number of
      * repetitions(negative) then the byte(positive). Object only once/twice for
-     * short repetitions. Up to 130 repetitions.
+     * short repetitions. Up to 130 repetitions. Leaves out first byte, as it
+     * shows the length of the code.
      * 
      * @param code
      *            the message to decode
@@ -114,7 +116,7 @@ public final class RunLengthEncoder {
         // go through list
         List<Byte> full = new ArrayList<Byte>();
         int count = 1;
-        for (Byte b : code) {
+        for (Byte b : code.subList(1, code.size())) {
             if (b < 0) {
                 // negative number is a counter
                 count = -b + 2;

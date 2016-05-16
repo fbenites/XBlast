@@ -37,6 +37,7 @@ public class RunLengthEncoderTest {
         }
         List<Byte> c = RunLengthEncoder.encode(b);
         List<Byte> a = new ArrayList<Byte>(Arrays.asList(
+                (byte) 22,
                 (byte) -1, (byte) 1,
                 (byte) 2, 
                 (byte) 3, (byte) 3, 
@@ -55,6 +56,7 @@ public class RunLengthEncoderTest {
     @Test
     public void decodeTest() {
         List<Byte> a = new ArrayList<Byte>(Arrays.asList(
+                (byte) 22,
                 (byte) -1, (byte) 1,
                 (byte) 2,
                 (byte) 3, (byte) 3,
