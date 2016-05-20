@@ -30,8 +30,8 @@ public class LifeStateTest {
         assertTrue(ls.canMove());
         
         ls = new LifeState(0, LifeState.State.INVULNERABLE);
-        assertEquals(LifeState.State.DEAD, ls.state());
-        assertFalse(ls.canMove());
+        assertEquals(LifeState.State.INVULNERABLE, ls.state());
+        assertTrue(ls.canMove());
     }
 
 }

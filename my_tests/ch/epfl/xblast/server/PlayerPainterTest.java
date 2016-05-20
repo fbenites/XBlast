@@ -70,10 +70,10 @@ public class PlayerPainterTest {
                         Direction.N)), 5, 5);
         assertEquals(15, PlayerPainter.byteForPlayer(5, p));
         p = new Player(PlayerID.PLAYER_4, Sq.constant(new Player.LifeState(0,
-                Player.LifeState.State.DYING)),
+                Player.LifeState.State.DEAD)),
                 Sq.constant(new Player.DirectedPosition(new SubCell(4, 4),
                         Direction.N)), 5, 5);
-        assertEquals(75, PlayerPainter.byteForPlayer(5, p));
+        assertEquals(15, PlayerPainter.byteForPlayer(5, p));
     }
 
     @Test

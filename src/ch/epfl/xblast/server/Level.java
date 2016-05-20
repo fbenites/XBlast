@@ -69,6 +69,7 @@ public final class Level {
      * @return the default Level
      */
     private static Level getDefaultLevel() {
+        //FIXME make constants
         // build palate
         Map<Block, BlockImage> palete = new HashMap<Block, BlockImage>();
         palete.put(Block.FREE, BlockImage.IRON_FLOOR);

@@ -87,5 +87,17 @@ public class RunLengthEncoderTest {
             assertEquals(b.get(i), c.get(i));
         }
     }
+    
+    @Test (expected = IllegalArgumentException.class)
+    public void decodeExceptionTest(){
+        List<Byte> a = new ArrayList<Byte>(Arrays.asList(
+                (byte) 22,
+                (byte) -1, (byte) 1,
+                (byte) 2,
+                (byte) 3, (byte) 3,
+                (byte) -2, (byte) 4,
+                (byte) -3, (byte) -5));
+        RunLengthEncoder.decode(a);
+    }
 
 }

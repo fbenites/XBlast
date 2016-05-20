@@ -2,8 +2,8 @@ package ch.epfl.xblast.client;
 
 import java.awt.image.BufferedImage;
 import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.NoSuchElementException;
 
 import javax.imageio.ImageIO;
@@ -34,7 +34,7 @@ public final class ImageCollection {
      */
     public static final ImageCollection SCORE = new ImageCollection("score");
 
-    private final List<BufferedImage> images;
+    private final Map<Integer, BufferedImage> images;
 
     /**
      * Creates a new ImageCollection from a specified folder. Gives an empty
@@ -44,20 +44,15 @@ public final class ImageCollection {
      *            name of the folder containing the images
      */
     public ImageCollection(String folderName) {
-        images = new ArrayList<BufferedImage>();
-        // ignore exceptions in class ImageCollection: try with empty catch
+        images = new HashMap<Integer, BufferedImage>();
         File dir;
         try {
-            // get directory
             dir = new File(ImageCollection.class.getClassLoader()
                     .getResource(folderName).toURI());
             for (File f : dir.listFiles()) {
-                // try/catch for parseInt() and read(). catch does nothing, so
-                // corrupted images are ignored
                 try {
-                    // add image to the right index
                     int number = Integer.parseInt(f.getName().substring(0, 3));
-                    images.add(number, ImageIO.read(f));
+                    images.put(number, ImageIO.read(f));
                 } catch (Exception e) {
                 }
             }

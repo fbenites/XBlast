@@ -2,6 +2,7 @@ package ch.epfl.xblast.client;
 
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -102,13 +103,11 @@ public final class GameStateDeserializer {
      * @return list of images, row major order
      */
     private static List<BufferedImage> getBoard(List<Byte> bc) {
-        List<BufferedImage> board = new ArrayList<BufferedImage>();
-        // add image for every cell at row major index
-        for (int i = 0; i < Cell.COUNT; i++) {
-            board.add(Cell.SPIRAL_ORDER.get(i).rowMajorIndex(),
-                    ImageCollection.BLOCKS.image(bc.get(i)));
+        BufferedImage[] img = new BufferedImage[Cell.COUNT];
+        for(int i = 0; i < Cell.COUNT; i++){
+            img[Cell.SPIRAL_ORDER.get(i).rowMajorIndex()] = ImageCollection.BLOCKS.image(bc.get(i));
         }
-        return board;
+        return new ArrayList<BufferedImage>(Arrays.asList(img));
     }
 
     /**

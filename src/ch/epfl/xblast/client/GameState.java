@@ -1,6 +1,8 @@
 package ch.epfl.xblast.client;
 
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -34,11 +36,18 @@ public final class GameState {
     public GameState(List<Player> players, List<BufferedImage> board,
             List<BufferedImage> explosion, List<BufferedImage> scores,
             List<BufferedImage> time) {
-        this.players = Objects.requireNonNull(players);
-        this.board = Objects.requireNonNull(board);
-        this.explosion = Objects.requireNonNull(explosion);
-        this.scores = Objects.requireNonNull(scores);
-        this.time = Objects.requireNonNull(time);
+        this.players = Collections.unmodifiableList(new ArrayList<Player>(
+                Objects.requireNonNull(players)));
+        this.board = Collections.unmodifiableList(new ArrayList<BufferedImage>(
+                Objects.requireNonNull(board)));
+        this.explosion = Collections
+                .unmodifiableList(new ArrayList<BufferedImage>(Objects
+                        .requireNonNull(explosion)));
+        this.scores = Collections
+                .unmodifiableList(new ArrayList<BufferedImage>(Objects
+                        .requireNonNull(scores)));
+        this.time = Collections.unmodifiableList(new ArrayList<BufferedImage>(
+                Objects.requireNonNull(time)));
     }
 
     /**
@@ -112,7 +121,7 @@ public final class GameState {
          */
         public Player(PlayerID playerId, int lives, SubCell position,
                 BufferedImage image) {
-            id = playerId;
+            id = Objects.requireNonNull(playerId);
             this.lives = Objects.requireNonNull(lives);
             pos = Objects.requireNonNull(position);
             img = Objects.requireNonNull(image);
