@@ -1,6 +1,5 @@
 package ch.epfl.xblast.server;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -20,6 +19,26 @@ public final class Level {
 
     private final BoardPainter bp;
     private final GameState gs;
+
+    private static final List<Player> PLAYERS = Arrays.asList(new Player(
+            PlayerID.PLAYER_1, 3, new Cell(1, 1), 2, 3), new Player(
+            PlayerID.PLAYER_2, 3, new Cell(13, 1), 2, 3), new Player(
+            PlayerID.PLAYER_3, 3, new Cell(13, 11), 2, 3), new Player(
+            PlayerID.PLAYER_4, 3, new Cell(1, 11), 2, 3));
+
+    private static final Block FF = Block.FREE;
+    private static final Block IW = Block.INDESTRUCTIBLE_WALL;
+    private static final Block DW = Block.DESTRUCTIBLE_WALL;
+
+    private static final Board BOARD = Board.ofQuadrantNWBlocksWalled(Arrays
+            .asList(Arrays.asList(FF, FF, FF, FF, FF, DW, FF),
+                    Arrays.asList(FF, IW, DW, IW, DW, IW, DW),
+                    Arrays.asList(FF, DW, FF, FF, FF, DW, FF),
+                    Arrays.asList(DW, IW, FF, IW, IW, IW, IW),
+                    Arrays.asList(FF, DW, FF, DW, FF, FF, FF),
+                    Arrays.asList(DW, IW, DW, IW, DW, IW, FF)));
+
+    private static final BlockImage SHADED_BLOCK = BlockImage.IRON_FLOOR_S;
 
     /**
      * Constant for the start of the game. Board layout as provided, players in
@@ -69,34 +88,19 @@ public final class Level {
      * @return the default Level
      */
     private static Level getDefaultLevel() {
-        //FIXME make constants
         // build palate
         Map<Block, BlockImage> palete = new HashMap<Block, BlockImage>();
+        // add free block/image
         palete.put(Block.FREE, BlockImage.IRON_FLOOR);
+        // skip second entry in BlockImage(shaded block), add all
+        // Block/BlockImage pairs
         for (int i = 1; i < Block.values().length; i++) {
             palete.put(Block.values()[i], BlockImage.values()[i + 1]);
         }
         // create BoardPainter
-        BoardPainter painter = new BoardPainter(palete, BlockImage.IRON_FLOOR_S);
-        // build list of players
-        List<Player> players = new ArrayList<Player>();
-        players.add(new Player(PlayerID.PLAYER_1, 3, new Cell(1, 1), 2, 3));
-        players.add(new Player(PlayerID.PLAYER_2, 3, new Cell(13, 1), 2, 3));
-        players.add(new Player(PlayerID.PLAYER_3, 3, new Cell(13, 11), 2, 3));
-        players.add(new Player(PlayerID.PLAYER_4, 3, new Cell(1, 11), 2, 3));
-        // create board
-        Block ff = Block.FREE;
-        Block iw = Block.INDESTRUCTIBLE_WALL;
-        Block dw = Block.DESTRUCTIBLE_WALL;
-        Board board = Board.ofQuadrantNWBlocksWalled(Arrays.asList(
-                Arrays.asList(ff, ff, ff, ff, ff, dw, ff),
-                Arrays.asList(ff, iw, dw, iw, dw, iw, dw),
-                Arrays.asList(ff, dw, ff, ff, ff, dw, ff),
-                Arrays.asList(dw, iw, ff, iw, iw, iw, iw),
-                Arrays.asList(ff, dw, ff, dw, ff, ff, ff),
-                Arrays.asList(dw, iw, dw, iw, dw, iw, ff)));
+        BoardPainter painter = new BoardPainter(palete, SHADED_BLOCK);
         // create gamestate
-        GameState state = new GameState(board, players);
+        GameState state = new GameState(BOARD, PLAYERS);
         return new Level(painter, state);
     }
 

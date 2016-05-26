@@ -124,7 +124,7 @@ public final class GameState {
             id = Objects.requireNonNull(playerId);
             this.lives = Objects.requireNonNull(lives);
             pos = Objects.requireNonNull(position);
-            img = Objects.requireNonNull(image);
+            img = image;
         }
 
         /**

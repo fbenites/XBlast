@@ -14,15 +14,14 @@ import ch.epfl.xblast.PlayerID;
 import ch.epfl.xblast.SubCell;
 
 public class GameStateDeserializerTest {
-    
-    List<Integer> x = new ArrayList<Integer>(Arrays.asList(
-            121, -50, 2, 1, -2, 0, 3, 1, 3, 1, -2, 0, 1, 1, 3, 1, 3,
-            1, 3, 1, 1, -2, 0, 1, 3, 1, 3, -2, 0, -1, 1, 3, 1, 3, 1,
-            3, 1, 1, 2, 3, 2, 3, 2, 3, 2, 3, 2, 3, 2, 3, 2, 3, 2, 3,
-            2, 3, 2, 3, 2, 3, 2, 3, 2, 3, 2, 3, 2, 3, 2, 3, 2, 3, 2,
-            3, 1, 0, 0, 3, 1, 3, 1, 0, 0, 1, 1, 3, 1, 1, 0, 0, 1, 3,
-            1, 3, 0, 0, -1, 1, 3, 1, 1, -5, 2, 3, 2, 3, -5, 2, 3, 2,
-            3, 1, -2, 0, 3, -2, 0, 1, 3, 2, 1, 2,
+
+    List<Integer> x = new ArrayList<Integer>(Arrays.asList(121, -50, 2, 1, -2,
+            0, 3, 1, 3, 1, -2, 0, 1, 1, 3, 1, 3, 1, 3, 1, 1, -2, 0, 1, 3, 1, 3,
+            -2, 0, -1, 1, 3, 1, 3, 1, 3, 1, 1, 2, 3, 2, 3, 2, 3, 2, 3, 2, 3, 2,
+            3, 2, 3, 2, 3, 2, 3, 2, 3, 2, 3, 2, 3, 2, 3, 2, 3, 2, 3, 2, 3, 2,
+            3, 2, 3, 1, 0, 0, 3, 1, 3, 1, 0, 0, 1, 1, 3, 1, 1, 0, 0, 1, 3, 1,
+            3, 0, 0, -1, 1, 3, 1, 1, -5, 2, 3, 2, 3, -5, 2, 3, 2, 3, 1, -2, 0,
+            3, -2, 0, 1, 3, 2, 1, 2,
 
             4, -128, 16, -63, 16,
 
@@ -35,32 +34,34 @@ public class GameStateDeserializerTest {
 
     private List<Byte> getCode(List<Integer> list) {
         List<Byte> code = new ArrayList<Byte>();
-        for(Integer i : list){
+        for (Integer i : list) {
             code.add(i.byteValue());
         }
         return code;
     }
-    
+
     @Test
-    public void test01(){
+    public void test01() {
         GameState gs = GameStateDeserializer.deserialize(getCode(x));
-        //time tests
+        // time tests
         assertEquals(60, gs.time().size());
         assertEquals(53, gs.time().lastIndexOf(gs.time().get(0)));
-        
-        //explosion test
+
+        // explosion test
         assertEquals(Cell.COUNT, gs.explosion().size());
-        
-        //player
+
+        // player
         assertEquals(PlayerID.values().length, gs.players().size());
         assertEquals(1, gs.players().get(0).lives());
-        assertEquals(SubCell.centralSubCellOf(new Cell(13,1)), gs.players().get(1).position());
+        assertEquals(SubCell.centralSubCellOf(new Cell(13, 1)), gs.players()
+                .get(1).position());
         assertEquals(PlayerID.PLAYER_3, gs.players().get(2).id());
         assertFalse(gs.players().get(3).isAlive());
-        
-        //board
+
+        // board
         assertEquals(Cell.COUNT, gs.board().size());
-        assertEquals(15, gs.board().subList(0, 18).lastIndexOf(gs.board().get(0)));
+        assertEquals(15,
+                gs.board().subList(0, 25).lastIndexOf(gs.board().get(0)));
     }
 
 }

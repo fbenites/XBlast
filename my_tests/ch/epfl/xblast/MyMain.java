@@ -43,10 +43,10 @@ public class MyMain {
             Arrays.asList(xx, XX, xx, XX, xx, XX, __)));
 
     private static List<Player> PLAYERS = new ArrayList<Player>(Arrays.asList(
-            new Player(PlayerID.PLAYER_1, 3, new Cell(1, 1), 2, 3), new Player(
-                    PlayerID.PLAYER_2, 3, new Cell(13, 1), 2, 3), new Player(
-                    PlayerID.PLAYER_3, 3, new Cell(13, 11), 2, 3), new Player(
-                    PlayerID.PLAYER_4, 3, new Cell(1, 11), 2, 3)));
+            new Player(PlayerID.PLAYER_1, 3, new Cell(1, 1), 2, 3),
+            new Player(PlayerID.PLAYER_2, 3, new Cell(13, 1), 2, 3),
+            new Player(PlayerID.PLAYER_3, 3, new Cell(13, 11), 2, 3),
+            new Player(PlayerID.PLAYER_4, 3, new Cell(1, 11), 2, 3)));
 
     public static void main(String[] args) throws InterruptedException {
         // initialize xblast component

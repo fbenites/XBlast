@@ -67,8 +67,12 @@ public final class GameState {
             List<Sq<Cell>> blasts) {
         this.ticks = ArgumentChecker.requireNonNegative(ticks);
         this.board = Objects.requireNonNull(board, "Given board is null.");
+        // sort players by id
+        List<Player> p = new ArrayList<Player>(players);
+        p.sort((p1, p2) -> Integer
+                .compare(p1.id().ordinal(), p2.id().ordinal()));
         this.players = Collections.unmodifiableList(new ArrayList<Player>(
-                Objects.requireNonNull(players, "Given player list is null.")));
+                Objects.requireNonNull(p, "Given player list is null.")));
         this.bombs = Collections.unmodifiableList(new ArrayList<Bomb>(Objects
                 .requireNonNull(bombs, "Given bomb list is null.")));
         this.explosions = Collections

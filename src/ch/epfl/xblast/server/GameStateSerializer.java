@@ -51,7 +51,7 @@ public final class GameStateSerializer {
                     exp.add(ExplosionPainter.BYTE_FOR_EMPTY);
                 } else {
                     // empty cell with blast, check four directions
-                    boolean[] nesw = new boolean[] {};
+                    boolean[] nesw = new boolean[Direction.values().length];
                     for (Direction d : Direction.values()) {
                         nesw[d.ordinal()] = lvl.gameState().blastedCells()
                                 .contains(c.neighbor(d));
@@ -66,14 +66,18 @@ public final class GameStateSerializer {
         // compress explosion list and add to return list
         serial.addAll(RunLengthEncoder.encode(exp));
         // add bytes for each player
-        for (Player p : lvl.gameState().players()) {
+        List<Player> players = new ArrayList<Player>(lvl.gameState().players());
+        // sort list of players by id before serializing
+        players.sort((p1, p2) -> Integer.compare(p1.id().ordinal(), p2.id()
+                .ordinal()));
+        for (Player p : players) {
             serial.add((byte) p.lives());
             serial.add((byte) p.position().x());
             serial.add((byte) p.position().y());
             serial.add(PlayerPainter.byteForPlayer(lvl.gameState().ticks(), p));
         }
         // add byte for game time
-        //FIXME game time hard coded
+        // FIXME game time hard coded
         serial.add((byte) Math.ceil(lvl.gameState().remainingTime() / 2));
         return serial;
     }
