@@ -10,7 +10,7 @@ public class ImageCollectionTest {
 
     @Test
     public void testPlayers() {
-        ImageCollection ic = ImageCollection.PLAYERS;
+        ImageCollection ic = GameStateDeserializer.PLAYERS;
         for(int i = 0; i < 14; i++){
             ic.image(i);
             assertEquals(ic.image(i), ic.imageOrNull(i));
@@ -30,7 +30,7 @@ public class ImageCollectionTest {
 
     @Test
     public void testBlocks() {
-        ImageCollection ic = ImageCollection.BLOCKS;
+        ImageCollection ic = GameStateDeserializer.BLOCKS;
         for(int i = 0; i < 7; i++){
             ic.image(i);
             assertEquals(ic.image(i), ic.imageOrNull(i));
@@ -40,7 +40,7 @@ public class ImageCollectionTest {
 
     @Test
     public void testExplosion() {
-        ImageCollection ic = ImageCollection.EXPLOSIONS;
+        ImageCollection ic = GameStateDeserializer.EXPLOSIONS;
         for(int i = 0; i < 16; i++){
             ic.image(i);
             assertEquals(ic.image(i), ic.imageOrNull(i));
@@ -53,7 +53,7 @@ public class ImageCollectionTest {
 
     @Test
     public void testScore() {
-        ImageCollection ic = ImageCollection.SCORE;
+        ImageCollection ic = GameStateDeserializer.SCORE;
         for(int i = 0; i < 8; i++){
             ic.image(i);
             assertEquals(ic.image(i), ic.imageOrNull(i));
@@ -68,7 +68,7 @@ public class ImageCollectionTest {
     
     @Test(expected = NoSuchElementException.class)
     public void exceptionTest(){
-        ImageCollection ic = ImageCollection.SCORE;
-        ic.image(8);
+        ImageCollection ic = GameStateDeserializer.SCORE;
+        ic.image(100);
     }
 }

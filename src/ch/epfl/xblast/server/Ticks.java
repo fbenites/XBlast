@@ -45,6 +45,5 @@ public interface Ticks {
     /**
      * Total Ticks of a Game (of 2 Minutes).
      */
-    // FIXME game time hardcoded
     public static final int TOTAL_TICKS = TICKS_PER_SECOND * Time.S_PER_MIN * 2;
 }

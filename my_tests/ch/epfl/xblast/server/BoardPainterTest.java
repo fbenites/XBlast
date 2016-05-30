@@ -34,8 +34,14 @@ public class BoardPainterTest {
 
     @Test(expected = NullPointerException.class)
     public void constructorException02() {
-        new BoardPainter(Collections.singletonMap(Block.FREE,
-                BlockImage.IRON_FLOOR), null);
+        Map<Block, BlockImage> m = new HashMap<Block, BlockImage>();
+        m.put(Block.FREE, BlockImage.IRON_FLOOR);
+        m.put(Block.INDESTRUCTIBLE_WALL, BlockImage.DARK_BLOCK);
+        m.put(Block.DESTRUCTIBLE_WALL, BlockImage.EXTRA);
+        m.put(Block.CRUMBLING_WALL, BlockImage.EXTRA_O);
+        m.put(Block.BONUS_BOMB, BlockImage.BONUS_BOMB);
+        m.put(Block.BONUS_RANGE, BlockImage.BONUS_RANGE);
+        new BoardPainter(m, null);
     }
 
     @Test(expected = IllegalArgumentException.class)

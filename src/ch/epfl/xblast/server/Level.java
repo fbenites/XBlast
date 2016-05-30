@@ -10,8 +10,7 @@ import ch.epfl.xblast.Cell;
 import ch.epfl.xblast.PlayerID;
 
 /**
- * Class grouping a Boardpainter and a Gamestate. Would allow to introduce
- * additional images for the board.
+ * Class grouping a Boardpainter and a Gamestate.
  * 
  * @author Lorenz Rasch (249937)
  */
@@ -20,6 +19,9 @@ public final class Level {
     private final BoardPainter bp;
     private final GameState gs;
 
+    /**
+     * Constants for the default Level
+     */
     private static final List<Player> PLAYERS = Arrays.asList(new Player(
             PlayerID.PLAYER_1, 3, new Cell(1, 1), 2, 3), new Player(
             PlayerID.PLAYER_2, 3, new Cell(13, 1), 2, 3), new Player(
@@ -81,6 +83,28 @@ public final class Level {
     }
 
     /**
+     * Gives a new Level with the BoardPainter specified.
+     * 
+     * @param painter
+     *            the new BoardPainter
+     * @return level with the new BoardPainter
+     */
+    public Level withBoardPainter(BoardPainter painter) {
+        return new Level(painter, gameState());
+    }
+
+    /**
+     * Gives a new Level with the GameState specified.
+     * 
+     * @param state
+     *            the new GameState
+     * @return level with the new GameState
+     */
+    public Level withGameState(GameState state) {
+        return new Level(boardPainter(), state);
+    }
+
+    /**
      * Gives the default Level. Board layout as provided, players in corners
      * (clockwise, Player 1 top left) with 3 lives, carrying 2 bombs with range
      * 3. BoardPainter with provided images.
@@ -90,8 +114,8 @@ public final class Level {
     private static Level getDefaultLevel() {
         // build palate
         Map<Block, BlockImage> palete = new HashMap<Block, BlockImage>();
-        // add free block/image
-        palete.put(Block.FREE, BlockImage.IRON_FLOOR);
+        // add first pair of Block/BlockImage
+        palete.put(Block.values()[0], BlockImage.values()[0]);
         // skip second entry in BlockImage(shaded block), add all
         // Block/BlockImage pairs
         for (int i = 1; i < Block.values().length; i++) {

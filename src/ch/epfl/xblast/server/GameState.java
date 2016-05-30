@@ -141,7 +141,7 @@ public final class GameState {
      * @return the player id of the winner, or an empty Optional
      */
     public Optional<PlayerID> winner() {
-        if (this.isGameOver() && (alivePlayers().size() == 1)) {
+        if (isGameOver() && (alivePlayers().size() == 1)) {
             return Optional.of(alivePlayers().get(0).id());
         } else {
             return Optional.empty();
@@ -456,8 +456,7 @@ public final class GameState {
                 // no movement only if, next cell is blocked AND player is on
                 // central subcell
                 // is equal to, movement if, next cell isn't blocked OR player
-                // isn't
-                // on central subcell
+                // isn't on central subcell
                 if (board1.blockAt(nextCell).canHostPlayer()
                         || !dp1.head().position().isCentral()) {
                     Cell thisCell = dp1.head().position().containingCell();
@@ -466,10 +465,8 @@ public final class GameState {
                         SubCell thisSubCell = dp1.head().position();
                         SubCell nextSubCell = dp1.tail().head().position();
                         // movement on cell with bomb only possible, if distance
-                        // to
-                        // central subcell increases OR player is further away
-                        // from
-                        // central subcell than distance 6
+                        // to central subcell increases OR player is further
+                        // away from central subcell than distance 6
                         if ((thisSubCell.distanceToCentral() < nextSubCell
                                 .distanceToCentral())
                                 || thisSubCell.distanceToCentral() != 6) {

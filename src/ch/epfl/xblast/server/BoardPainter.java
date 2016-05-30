@@ -32,8 +32,9 @@ public final class BoardPainter {
      *             if the provided palete/mapping is empty
      */
     public BoardPainter(Map<Block, BlockImage> palete, BlockImage shadedBlock) {
-        if (Objects.requireNonNull(palete).isEmpty()) {
-            throw new IllegalArgumentException("Provided palete is empty.");
+        if (Objects.requireNonNull(palete).size() != Block.values().length) {
+            throw new IllegalArgumentException(
+                    "Provided palete has wrong size.");
         } else {
             this.palete = Collections
                     .unmodifiableMap(new HashMap<Block, BlockImage>(palete));

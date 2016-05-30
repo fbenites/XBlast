@@ -20,11 +20,29 @@ import ch.epfl.xblast.client.GameState.Player;
  */
 public final class GameStateDeserializer {
 
+    /**
+     * ImageCollection for the players Images
+     */
+    public static final ImageCollection PLAYERS = new ImageCollection("player");
+    /**
+     * ImageCollection for the boards blocks
+     */
+    public static final ImageCollection BLOCKS = new ImageCollection("block");
+    /**
+     * ImageCollection for bombs and blasts
+     */
+    public static final ImageCollection EXPLOSIONS = new ImageCollection(
+            "explosion");
+    /**
+     * ImageCollection for the Scoreboard
+     */
+    public static final ImageCollection SCORE = new ImageCollection("score");
+
     // constants for the scoreboard images
     private final static int TEXT_MIDDLE = 10;
     private final static int TEXT_RIGHT = 11;
     private final static List<BufferedImage> VOID_TILES = Collections.nCopies(
-            8, ImageCollection.SCORE.image(12));
+            8, SCORE.image(12));
 
     // constants for the timebar images
     private final static int TIMEBAR_LENGTH = 60;
@@ -89,7 +107,7 @@ public final class GameStateDeserializer {
                     .toUnsignedInt(pc.get(3 + (i * PlayerID.values().length)));
             // create player with values given, image null for dead players
             players.add(new Player(PlayerID.values()[i], lives, new SubCell(x,
-                    y), ImageCollection.PLAYERS.imageOrNull(img)));
+                    y), PLAYERS.imageOrNull(img)));
         }
         return players;
     }
@@ -104,8 +122,10 @@ public final class GameStateDeserializer {
      */
     private static List<BufferedImage> getBoard(List<Byte> bc) {
         BufferedImage[] img = new BufferedImage[Cell.COUNT];
-        for(int i = 0; i < Cell.COUNT; i++){
-            img[Cell.SPIRAL_ORDER.get(i).rowMajorIndex()] = ImageCollection.BLOCKS.image(bc.get(i));
+        for (int i = 0; i < Cell.COUNT; i++) {
+            // add the i-th image at its rowMajorIndex
+            img[Cell.SPIRAL_ORDER.get(i).rowMajorIndex()] = BLOCKS.image(bc
+                    .get(i));
         }
         return new ArrayList<BufferedImage>(Arrays.asList(img));
     }
@@ -122,7 +142,7 @@ public final class GameStateDeserializer {
         List<BufferedImage> exp = new ArrayList<BufferedImage>();
         // add picture for every byte to list, null for empty spaces
         for (Byte b : ec) {
-            exp.add(ImageCollection.EXPLOSIONS.imageOrNull(b));
+            exp.add(EXPLOSIONS.imageOrNull(b));
         }
         return exp;
     }
@@ -141,14 +161,13 @@ public final class GameStateDeserializer {
         for (Player p : players) {
             // add players head
             if (p.isAlive()) {
-                scores.add(ImageCollection.SCORE.image(p.id().ordinal() * 2));
+                scores.add(SCORE.image(p.id().ordinal() * 2));
             } else {
-                scores.add(ImageCollection.SCORE
-                        .image(p.id().ordinal() * 2 + 1));
+                scores.add(SCORE.image(p.id().ordinal() * 2 + 1));
             }
             // add tiles to make up text-field
-            scores.add(ImageCollection.SCORE.image(TEXT_MIDDLE));
-            scores.add(ImageCollection.SCORE.image(TEXT_RIGHT));
+            scores.add(SCORE.image(TEXT_MIDDLE));
+            scores.add(SCORE.image(TEXT_RIGHT));
         }
         // add empty tiles in the middle
         scores.addAll(scores.size() / 2, VOID_TILES);
@@ -166,10 +185,10 @@ public final class GameStateDeserializer {
         List<BufferedImage> time = new ArrayList<BufferedImage>();
         // add images representing the time left
         time.addAll(Collections.nCopies(Byte.toUnsignedInt(tc),
-                ImageCollection.SCORE.image(LED_ON)));
+                SCORE.image(LED_ON)));
         // add images representing the passed time
         time.addAll(Collections.nCopies(TIMEBAR_LENGTH - tc,
-                ImageCollection.SCORE.image(LED_OFF)));
+                SCORE.image(LED_OFF)));
         return time;
     }
 

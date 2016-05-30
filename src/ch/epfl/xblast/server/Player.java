@@ -15,7 +15,7 @@ import ch.epfl.xblast.SubCell;
  * @author Lorenz Rasch (249937)
  */
 public final class Player {
-    
+
     private final PlayerID id;
     private final Sq<LifeState> ls;
     private final Sq<DirectedPosition> dPos;
@@ -45,7 +45,7 @@ public final class Player {
         ls = Objects.requireNonNull(lifeStates, "Given LifeState is null.");
         dPos = Objects.requireNonNull(directedPos,
                 "Given DirectedPosition is null.");
-        // XXX if maxBombs/bombRange is over 9 leave it as it is, the player
+        // if maxBombs/bombRange is over 9 leave it as it is, the player
         // will not receive any bonuses
         maxB = ArgumentChecker.requireNonNegative(maxBombs);
         bRange = ArgumentChecker.requireNonNegative(bombRange);

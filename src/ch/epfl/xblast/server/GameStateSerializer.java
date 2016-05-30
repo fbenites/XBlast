@@ -77,7 +77,6 @@ public final class GameStateSerializer {
             serial.add(PlayerPainter.byteForPlayer(lvl.gameState().ticks(), p));
         }
         // add byte for game time
-        // FIXME game time hard coded
         serial.add((byte) Math.ceil(lvl.gameState().remainingTime() / 2));
         return serial;
     }

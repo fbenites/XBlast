@@ -16,24 +16,6 @@ import javax.imageio.ImageIO;
  */
 public final class ImageCollection {
 
-    /**
-     * ImageCollection for the players Images
-     */
-    public static final ImageCollection PLAYERS = new ImageCollection("player");
-    /**
-     * ImageCollection for the boards blocks
-     */
-    public static final ImageCollection BLOCKS = new ImageCollection("block");
-    /**
-     * ImageCollection for bombs and blasts
-     */
-    public static final ImageCollection EXPLOSIONS = new ImageCollection(
-            "explosion");
-    /**
-     * ImageCollection for the Scoreboard
-     */
-    public static final ImageCollection SCORE = new ImageCollection("score");
-
     private final Map<Integer, BufferedImage> images;
 
     /**
@@ -46,14 +28,18 @@ public final class ImageCollection {
     public ImageCollection(String folderName) {
         images = new HashMap<Integer, BufferedImage>();
         File dir;
+        // try to read folder, no exception should be thrown here, ignore
+        // exception/empty catch
         try {
             dir = new File(ImageCollection.class.getClassLoader()
                     .getResource(folderName).toURI());
             for (File f : dir.listFiles()) {
+                // try to get images
                 try {
                     int number = Integer.parseInt(f.getName().substring(0, 3));
                     images.put(number, ImageIO.read(f));
                 } catch (Exception e) {
+                    // skip corrupted files, ignore exception
                 }
             }
         } catch (Exception e) {

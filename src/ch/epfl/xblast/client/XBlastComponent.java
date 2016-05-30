@@ -38,6 +38,8 @@ public final class XBlastComponent extends JComponent {
      */
     public XBlastComponent() {
         gs = null;
+        // to avoid exceptions where comparator hasn't been initialized,
+        // initialize comparator by playerID
         c = (p1, p2) -> Integer.compare(p1.id().ordinal(), p2.id().ordinal());
     }
 
@@ -48,6 +50,10 @@ public final class XBlastComponent extends JComponent {
 
     @Override
     protected void paintComponent(Graphics g0) {
+        // don't paint anything if there is no gamestate
+        if (gs == null) {
+            return;
+        }
         Graphics2D g = (Graphics2D) g0;
 
         // paint board and explosions row for row
@@ -77,9 +83,9 @@ public final class XBlastComponent extends JComponent {
         Font font = new Font("Arial", Font.BOLD, 25);
         g.setColor(Color.WHITE);
         g.setFont(font);
+        // sort players according to comparator; y coordinate then ID
         List<GameState.Player> players = new ArrayList<GameState.Player>(
                 gs.players());
-        // sort players according to comparator; y coordinate and ID
         players.sort(c);
         for (GameState.Player p : players) {
             // draw number of lifes according to players id
