@@ -281,7 +281,7 @@ public final class GameState {
     /**
      * Gives a Map of Cell(position)/Bomb pairs from a list given.
      * 
-     * @param the
+     * @param bombs0
      *            list of bombs
      * @return map of Cell/Bomb pairs
      */
@@ -297,7 +297,7 @@ public final class GameState {
      * Gives a Set of every Cell with at least on explosion particle on it from
      * a list of sequences of explosion particles.
      * 
-     * @param list
+     * @param blasts0
      *            of explosion particles
      * @return a Set of Cells with explosion particles
      */
