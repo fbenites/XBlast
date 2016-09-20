@@ -3,3 +3,5 @@
 bin/
 .settings/
 images/
+.idea/
+XBlast.iml
